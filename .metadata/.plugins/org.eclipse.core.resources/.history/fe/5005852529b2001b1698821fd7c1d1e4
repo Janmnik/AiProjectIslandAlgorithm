@@ -1,0 +1,37 @@
+package algortymGenetyczny;
+
+public class Mutacja {
+	private double propability = 0.1;
+	Czlonek genome;
+	
+	public Mutacja(Czlonek genome,double propability) {
+		this.propability = propability; //prawdopodobienstwo
+		this.genome = genome;
+	}
+	
+	public Mutacja(double propability) {
+		this.propability = propability; //prawdopodobienstwo
+	}
+	
+	public Czlonek genomeMutation() {
+		for(int i = 0; i < genome.chromosome.length;i++) {
+			double _propability = Math.random();
+			if(_propability < propability) {
+				genome.chromosome[i] = genome.chromosome[i] == '0' ? '1' : '0';
+			}
+		}
+		return genome;
+	}
+	
+	public Czlonek genomeMutation(Czlonek genome) {
+		for(int i = 0; i < genome.chromosome.length;i++) {
+			double _propability = Math.random();
+			if(_propability < propability) {
+				genome.chromosome[i] = genome.chromosome[i] == '0' ? '1' : '0';
+			}
+		}
+		return genome;
+	}
+	
+}
+

@@ -1,0 +1,2 @@
+INDEX VERSION 1.131+C:\Users\4ever\OneDrive\Documents\elearning\semestr4\ai\labs\mati\.metadata\.plugins\org.eclipse.jdt.core
+3142599586.index

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value="globalMaxes"/>
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="false"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<list key="findhistory">
+			<item value="globalMaxes"/>
+			<item value="child"/>
+			<item value="intersectPoint"/>
+			<item value="generate"/>
+			<item value="precision"/>
+			<item value="setChromosome"/>
+			<item value="ustal"/>
+			<item value="generateChromosome"/>
+			<item value="checkChromosome"/>
+			<item value="base"/>
+			<item value="new"/>
+			<item value="scaledAdaptation"/>
+			<item value="Genomes"/>
+			<item value="Population"/>
+			<item value="Populacja"/>
+		</list>
+		<list key="replacehistory">
+			<item value="dziecko"/>
+			<item value="punktKrzyz"/>
+			<item value="generuj"/>
+			<item value="precyzja"/>
+			<item value="ustawChromosom"/>
+			<item value="ust"/>
+			<item value="stworz"/>
+			<item value="sprawdz"/>
+			<item value="baza"/>
+			<item value="nowa"/>
+			<item value="przeskalowane"/>
+			<item value="Czlonki"/>
+			<item value="Populacja"/>
+			<item value="krzyzowanie"/>
+			<item value="Mutacja"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="898"/>
+		<item key="DIALOG_Y_ORIGIN" value="134"/>
+		<item key="DIALOG_WIDTH" value="284"/>
+		<item key="DIALOG_HEIGHT" value="387"/>
+		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
+	</section>
+</section>
