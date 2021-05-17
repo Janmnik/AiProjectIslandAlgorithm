@@ -5,14 +5,14 @@ public class Algorytm {
 	
 	public double Ai;
 	public double Bi;
-	private double MutacjaPropability;
-	private double krzyzowaniePropability;
-	private double env;
+	public double MutacjaPropability;
+	public double krzyzowaniePropability;
+	public double env;
 	
-	private int n, PopulacjaLength;
-	private double precision;
-	private int times;
-	private static boolean firstRun = true;
+	public int n, PopulacjaLength;
+	public double precision;
+	public int times;
+	private boolean firstRun = true;
 	
 	public Algorytm(double _Ai, double _Bi,double _precision,int _n,int _PopulacjaLength,double _env,double _MutacjaPropability, double _krzyzowaniePropability, int _times) {
 		Ai = _Ai;
@@ -41,9 +41,9 @@ public class Algorytm {
 		double AVGS[][] = new double[times][(int)(1000)];
 		double AVG_GLOBALMAX[][] = new double[50][1000];
 		
-		for(int i = 0 ; i < times; i++) {
+		//for(int i = 0 ; i < times; i++) {
 			
-			int generation  = 1;
+			int generation  = 0;
 			Czlonek baseChromosome = new Czlonek(Ai,Bi,n,precision);
 			//krok 1 & 2
 			Populacja populacja = new Populacja(baseChromosome,PopulacjaLength);
@@ -61,10 +61,10 @@ public class Algorytm {
 				}
 				
 				populacja = new Ruletka(populacja,"MAX").nowaPopulacja;
-				AVGMAX[i][j] = populacja.Adaptation.MAX;
-				AVGS[i][j] = populacja.Adaptation.AVG;
+				//AVGMAX[i][j] = populacja.Adaptation.MAX;
+				//AVGS[i][j] = populacja.Adaptation.AVG;
 				
-				AVG_GLOBALMAX[i][j] = Populacja.GLOBALMAX; 
+				//AVG_GLOBALMAX[i][j] = Populacja.GLOBALMAX; 
 				//krok 4 & 5
 				populacja = krzyzowanieChromosomes(populacja);
 				populacja = mutatePopulacja(populacja);
@@ -80,19 +80,21 @@ public class Algorytm {
 			firstRun = false;
 			
 			//globalMaxes.WriteToFile(String.format("%g",Populacja.GLOBALMAX));
-		}
+		//}
 		
-		Zapisywacz localMax = new Zapisywacz(String.format("localMax%d .txt",PopulacjaLength));
-		Zapisywacz localAVG = new Zapisywacz(String.format("localAVG%d .txt",PopulacjaLength));
-		double localMaxes[] =  calculateAVGLocal(AVGMAX);
-		double localAVGS[] = calculateAVGLocal(AVGS);
-		double globalMaxesArr[] = calculateAVGLocal(AVG_GLOBALMAX);
-		
-		for(int i = 0; i < localMaxes.length;i++) {
-			localMax.WriteToFile(String.format("%g", localMaxes[i]));
-			localAVG.WriteToFile(String.format("%g", localAVGS[i]));
-			globalMaxes.WriteToFile(String.format("%g",globalMaxesArr[i]));
-		}
+//		Zapisywacz localMax = new Zapisywacz(String.format("localMax%d .txt",PopulacjaLength));
+//		Zapisywacz localAVG = new Zapisywacz(String.format("localAVG%d .txt",PopulacjaLength));
+//		double localMaxes[] =  calculateAVGLocal(AVGMAX);
+//		double localAVGS[] = calculateAVGLocal(AVGS);
+//		double globalMaxesArr[] = calculateAVGLocal(AVG_GLOBALMAX);
+//		
+//		for(int i = 0; i < localMaxes.length;i++) {
+//			localMax.WriteToFile(String.format("%g", localMaxes[i]));
+//			localAVG.WriteToFile(String.format("%g", localAVGS[i]));
+//			globalMaxes.WriteToFile(String.format("%g",globalMaxesArr[i]));
+//		}
+		System.out.println("THE BEST SOLUTION "+Populacja.GLOBALMAX);
+		generation  = 0;
 	}
 	
 	
