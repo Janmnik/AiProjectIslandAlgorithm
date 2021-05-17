@@ -36,7 +36,7 @@ public class Algorytm {
 		//	krzyzowanie
 		//5 krok: stworzenie nowej popualcji
 		
-		Zapisywacz globalMaxes = new Zapisywacz(String.format("globalMAX%d .txt",PopulacjaLength));
+		//Zapisywacz globalMaxes = new Zapisywacz(String.format("globalMAX%d .txt",PopulacjaLength));
 		double AVGMAX [][] = new double[times][(int)(1000)];
 		double AVGS[][] = new double[times][(int)(1000)];
 		double AVG_GLOBALMAX[][] = new double[50][1000];
@@ -56,8 +56,8 @@ public class Algorytm {
 				//krok 3
 				
 				if(firstRun == true && adaptationNR % 20 == 0) {
-					Zapisywacz adaptationSteps = new Zapisywacz(String.format("adaptationSteps%d .txt", PopulacjaLength));
-					adaptationSteps.WriteToFile(String.format("%d", adaptationNR));
+					//Zapisywacz adaptationSteps = new Zapisywacz(String.format("adaptationSteps%d .txt", PopulacjaLength));
+					//adaptationSteps.WriteToFile(String.format("%d", adaptationNR));
 				}
 				
 				populacja = new Ruletka(populacja,"MAX").nowaPopulacja;
