@@ -17,7 +17,6 @@ public class Czlonek implements Cloneable {
 		this.precyzja = precyzja;
 		MI = Mi();
 		start = 0;
-		
 		end = n*MI;
 		chromosome = stworz();
 		sprawdz();
