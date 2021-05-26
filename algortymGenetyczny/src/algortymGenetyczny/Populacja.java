@@ -8,10 +8,10 @@ public class Populacja {
 		
 		Czlonek Populacja [];
 		double adaptation [];
-		FunkcjaCeluZad1 goal;
+		Rastrigin goal;
 		double AVG,MIN,MAX;
 		
-		Adaptation(FunkcjaCeluZad1 goal, Czlonek[] Populacja){
+		Adaptation(Rastrigin goal, Czlonek[] Populacja){
 			this.goal = goal;
 			this.Populacja = Populacja;
 			this.adaptation = adaptPopulacja(goal);
@@ -20,17 +20,23 @@ public class Populacja {
 			this.MAX = getMax(adaptation);
 		}
 		
-		public double adaptGenome(Czlonek genome) {
-			return goal.func(genome.decoding(1),genome.decoding(2));
-		}
+		
 			
-		private double [] adaptPopulacja(FunkcjaCeluZad1 goal) {
+		private double [] adaptPopulacja(Rastrigin goal) {
 			
 			int n = Populacja.length;
 			double adaptation [] = new double[n];
 			
+			double wartoscChromosom [][] = new double[n][Populacja[0].n];
+			for(int i=0;i<n;i++) {
+				for(int k=0;k<Populacja[i].n;k++) {
+					wartoscChromosom[i][k]=Populacja[i].decoding(k+1);
+				}
+			}
+			
 			for(int i = 0; i<n;i++) {
-				adaptation[i] = goal.func(Populacja[i].decoding(1),Populacja[i].decoding(2));
+				
+				adaptation[i] = goal.apply(Populacja.);
 			}
 			
 			this.MIN = getMin(adaptation);
@@ -109,7 +115,7 @@ public class Populacja {
 		Populacja = generujPopulacja();
 	}
 	
-	public void adaptPopulacja(FunkcjaCeluZad1 goal) {
+	public void adaptPopulacja(Rastrigin goal) {
 		this.Adaptation = new Adaptation(goal,Populacja);
 	}
 	
@@ -140,13 +146,6 @@ public class Populacja {
 		}
 	}
 	
-	public boolean isBelowAVG(Czlonek genome) {
-		return Adaptation.adaptGenome(genome) < Adaptation.AVG;
-	}
-	
-	public boolean isAboveAVG(Czlonek genome) {
-		return Adaptation.adaptGenome(genome) >= Adaptation.AVG;
-	}
 	
 	public Populacja setPopulacja(Czlonek[] _Populacja) {
 		Populacja populacja = new Populacja(this.base,this.n);
