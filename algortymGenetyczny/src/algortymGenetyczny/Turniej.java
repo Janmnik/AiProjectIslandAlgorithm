@@ -3,33 +3,61 @@ package algortymGenetyczny;
 public class Turniej {
 	
 	
-	static FunkcjaCeluZad1 calc1 = new FunkcjaCeluZad1() {
-
-		@Override
-		public double func(double x) {
-			 return Math.pow(x,2) - (amplitude * Math.cos(2 * Math.PI * x));
-		}
-	};
+	
 	
 	Populacja bazaPopulacja;
-	Populacja nowaPopulacja;
 	
-	public Populacja wylosowanie(int n) {
+	public Turniej(Populacja bazaPopulacja) {
 		
-		Populacja Populacja = new Populacja(czlonek,n);
-		int n = Populacja;
-		int length = Populacja.n;
+		this.bazaPopulacja=bazaPopulacja;
+	}
+	private Populacja wylosowanie() {
+		
+	
+		int length = bazaPopulacja.n;
 		/*  wylosowanie dwóch osobników  */
 		int los1=(int) (Math.random()*(length - 0) + 0);
-		int los2=(int) (Math.random()*(length - 0) + 0);
-		while(los2==los1)
-		{
-			los2=(int) (Math.random()*(length - 0) + 0);
-		}
 		
-		return Populacja;
+		//tablica osobników
+		
+		Czlonek tablicaOsob[]= new Czlonek[length];
+		 
+		for(int i=0;i<length;i++) {
+			
+			tablicaOsob[i]=bazaPopulacja.Populacja[los1];
+			los1=(int)(Math.random()*(length));
+		}
+			Populacja nowaPopulacja = bazaPopulacja.setPopulacja(tablicaOsob);
+
+				
+		return nowaPopulacja;
 	}
 	
 	
+	private Czlonek wyborZwyciezcy(){
+		//wybór osobnika z ni¿sz¹ wartoœci¹ funkcji	
+		
+		Populacja nowaPopulacja=wylosowanie();
+		
+		return nowaPopulacja.Adaptation.PopulacjaMinCzlonek();
+		
+	}
+	
+	public Populacja PopulacjaNajlepszaWygrana() {
+		
+		int length = bazaPopulacja.n;
+		Czlonek nowaTabCzlonkow[] = new Czlonek[length];
+		for(int i=0;i<length;i++) {
+			nowaTabCzlonkow[i]=wyborZwyciezcy();
+		}
+		return bazaPopulacja.setPopulacja(nowaTabCzlonkow);
+	}
+	
+	
+	
+	
+		
+		//dodanie osobnika do nowej populacji
+		
 
 }

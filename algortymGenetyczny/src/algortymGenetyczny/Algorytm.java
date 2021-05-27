@@ -38,9 +38,13 @@ public class Algorytm{
 	public void run(){
 		
 		//funkcja celu:
+
 		Rastrigin goal = new Rastrigin(20, n);
 
 		
+
+		
+
 		
 		//1 krok inicjalizacja poczatkowej populacji chromosomow
 		//2 krok ocena przystosowania chromosomow w populacji
@@ -75,7 +79,7 @@ public class Algorytm{
 						//adaptationSteps.WriteToFile(String.format("%d", adaptationNR));
 					}
 					
-					populacja = new Ruletka(populacja,"MAX").nowaPopulacja;
+					populacja = new Turniej(populacja).PopulacjaNajlepszaWygrana();
 					//AVGMAX[i][j] = populacja.Adaptation.MAX;
 					//AVGS[i][j] = populacja.Adaptation.AVG;
 					

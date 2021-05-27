@@ -27,7 +27,7 @@ public class Populacja {
 			int n = Populacja.length;
 			double adaptation [] = new double[n];
 			
-			double wartoscChromosom [][] = new double[n][Populacja[0].n];
+			Double wartoscChromosom [][] = new Double[n][Populacja[0].n];
 			for(int i=0;i<n;i++) {
 				for(int k=0;k<Populacja[i].n;k++) {
 					wartoscChromosom[i][k]=Populacja[i].decoding(k+1);
@@ -36,7 +36,7 @@ public class Populacja {
 			
 			for(int i = 0; i<n;i++) {
 				
-				adaptation[i] = goal.apply(Populacja.);
+				adaptation[i] = goal.apply(wartoscChromosom[i]);
 			}
 			
 			this.MIN = getMin(adaptation);
@@ -46,6 +46,18 @@ public class Populacja {
 				GLOBALMAX = MAX;
 			
 			return adaptation;
+		}
+		public Czlonek PopulacjaMinCzlonek() {
+			int MinIndex=0;
+			int n=Populacja.length;
+			for(int i=0;i<n;i++) {
+				if(adaptation[i]==this.MIN) {
+					MinIndex=i;
+					break;
+				}
+				
+			}
+			return Populacja[MinIndex];
 		}
 		
 		private double getMax(double adaptation[]) {
