@@ -18,7 +18,7 @@ public class WyspowyAlgorytm {
 			wyspa.run();
 			rozwiazaniaWysp.add(index, wyspa.najlepszeRozwiazanie); 
 			index++;
-			//wyspa.algorytm.najlepszeRozwiazanie  = 0;
+			wyspa.algorytm.najlepszeRozwiazanie  = 0;
 		}
 		return rozwiazaniaWysp;
 	}
@@ -50,7 +50,8 @@ public class WyspowyAlgorytm {
 		int ewaulacje = 1000;
 		int bierzacaEwaulacja = 50;
 		//krok 1
-		ArrayList<Wyspa> wyspy = Wyspa.generujWyspy(new Algorytm(-2,2,100000d,10,30,bierzacaEwaulacja,0.02,0.6,50));
+		
+		ArrayList<Wyspa> wyspy = Wyspa.generujWyspy(new Algorytm(-2,2,100000d,10,100,ewaulacje,0.02,0.6,50));
 		
 		
 		
