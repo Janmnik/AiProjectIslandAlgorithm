@@ -1,29 +1,37 @@
 package algortymGenetyczny;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.concurrent.CompletableFuture;
+import java.util.Comparator;
 
 public class WyspowyAlgorytm {
 	
 	
+	//wyliczenie wartosci podpopulacji 
 	private static ArrayList<Double> ewaulujWartosci(ArrayList<Wyspa> wyspy){
 		int index = 0;
-		ArrayList<Double> najlepszeRozwiazaniaWysp = new ArrayList<Double>();
+		ArrayList<Double> rozwiazaniaWysp = new ArrayList<Double>();
+		int bierzacaEwaulacja = dajMaxPopulacja(wyspy);
+		int ewaulacje = 1000;
 		for(Wyspa wyspa : wyspy) {
-			System.out.println("========== WYSPA "+wyspa.numerWyspy+"==============");
+			System.out.println("========== WYSPA "+wyspa.numerWyspy+" populacja:"+wyspa.podpopulacja+"==============");
 			wyspa.run();
-			najlepszeRozwiazaniaWysp.add(index, wyspa.najlepszeRozwiazanie); 
+			rozwiazaniaWysp.add(index, wyspa.najlepszeRozwiazanie); 
 			index++;
+			//wyspa.algorytm.najlepszeRozwiazanie  = 0;
 		}
-		return najlepszeRozwiazaniaWysp;
+		return rozwiazaniaWysp;
 	}
 	
 	private static int dajWyspeNiepowodzenia(ArrayList<Double> wynikiWysp){
 		//dla maksimum szukamy min
 		//dla minimum szukamy max
 		return wynikiWysp.indexOf(Collections.max(wynikiWysp));
+	}
+	
+	
+	private static int dajMaxPopulacja(ArrayList<Wyspa> wyspy) {
+		return wyspy.stream().max(Comparator.comparing(wyspa -> wyspa)).get().podpopulacja;
 	}
 	
 	public static void main(String[] args) throws CloneNotSupportedException {
@@ -40,22 +48,23 @@ public class WyspowyAlgorytm {
 		//usun wyspe
 		
 		int ewaulacje = 1000;
-		
-		int bierzaceEwaulacje = 20;
+		int bierzacaEwaulacja = 50;
 		//krok 1
-		ArrayList<Wyspa> wyspy = Wyspa.generujWyspy(new Algorytm(-2,2,100000d,2,20,20,0.02,0.6,50));
+		ArrayList<Wyspa> wyspy = Wyspa.generujWyspy(new Algorytm(-2,2,100000d,10,30,bierzacaEwaulacja,0.02,0.6,50));
 		
-		ArrayList<Double> najlepszeRozwiazaniaWysp = new ArrayList<Double>();
+		
+		
+		ArrayList<Double> rozwiazaniaWysp = new ArrayList<Double>();
 		ArrayList<Integer>ileRazyNiePoprawiono = new ArrayList<Integer>();
-		int maxNiepowodzen = 5;
+		int maxNiepowodzen = 7;
 		int index = 0;
 		
 		try {
 		while(wyspy.size() > 1) {
 		
-			najlepszeRozwiazaniaWysp = ewaulujWartosci(wyspy);
+			rozwiazaniaWysp = ewaulujWartosci(wyspy);
 		
-			int numerWyspyNiepowodzenia = dajWyspeNiepowodzenia(najlepszeRozwiazaniaWysp);
+			int numerWyspyNiepowodzenia = dajWyspeNiepowodzenia(rozwiazaniaWysp);
 			
 			int licznik = ileRazyNiePoprawiono.get(numerWyspyNiepowodzenia);
 			

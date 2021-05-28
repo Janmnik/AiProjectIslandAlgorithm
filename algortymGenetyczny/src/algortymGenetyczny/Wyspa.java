@@ -2,7 +2,7 @@ package algortymGenetyczny;
 
 import java.util.ArrayList;
 
-public class Wyspa{
+public class Wyspa implements Comparable<Wyspa>{
 	
 	static int calosc = 20;
 	static int numerWysp = 1;
@@ -10,9 +10,10 @@ public class Wyspa{
 	int numerWyspy;
 	int podpopulacja;
 	
+	static double globalNajlepszeRozwiazanie = 0;
+	static int NumerNajlepszejWyspy = 0;
 	
 	double najlepszeRozwiazanie;
-	int licznikNiepowodzen;
 	Algorytm algorytm;
 	
 	public Wyspa(Algorytm _baza, double _env){
@@ -49,7 +50,7 @@ public class Wyspa{
 	
 	private static int generujPopulacjeWysp(int populacjaLength){
 		
-		int wylosowanaPodpopulacja = getRandomNumber(2,calosc);
+		int wylosowanaPodpopulacja = getRandomNumber(1,calosc);
 			
 		calosc -= wylosowanaPodpopulacja;
 	
@@ -58,6 +59,17 @@ public class Wyspa{
 	
 	private static int getRandomNumber(int min, int max) {
 	    return (int)((Math.random() * (max - min)) + min);
+	}
+
+
+	@Override
+	public int compareTo(Wyspa w) {
+		if(this.podpopulacja > w.podpopulacja)
+			return 1;
+		else if (this.podpopulacja < w.podpopulacja)
+			return -1;
+		else
+		return 0;
 	}
 	
 }

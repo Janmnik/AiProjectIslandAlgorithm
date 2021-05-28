@@ -9,7 +9,7 @@ public class Populacja {
 		Czlonek Populacja [];
 		double adaptation [];
 		Rastrigin goal;
-		double AVG,MIN,MAX;
+		double AVG,MIN;
 		
 		Adaptation(Rastrigin goal, Czlonek[] Populacja){
 			this.goal = goal;
@@ -17,7 +17,6 @@ public class Populacja {
 			this.adaptation = adaptPopulacja(goal);
 			this.AVG = calcAVGAdaptation();
 			this.MIN = getMin(adaptation);
-			this.MAX = getMax(adaptation);
 		}
 		
 		
@@ -40,10 +39,9 @@ public class Populacja {
 			}
 			
 			this.MIN = getMin(adaptation);
-			this.MAX = getMax(adaptation);
 			
-			if(GLOBALMAX < MAX)
-				GLOBALMAX = MAX;
+			if(GLOBALMIN > MIN)
+				GLOBALMIN = MIN;
 			
 			return adaptation;
 		}
@@ -60,10 +58,6 @@ public class Populacja {
 			return Populacja[MinIndex];
 		}
 		
-		private double getMax(double adaptation[]) {
-			return Arrays.stream(adaptation).max().getAsDouble();
-		}
-		
 		private double getMin(double adaptation[]) {
 			return Arrays.stream(adaptation).min().getAsDouble();
 		}
@@ -72,7 +66,7 @@ public class Populacja {
 		{
 			this.adaptation = _adaptation;
 			calcAVGAdaptation();
-			//this.MIN = getMin(adaptation);
+			this.MIN = getMin(adaptation);
 		}
 		
 		
@@ -81,26 +75,7 @@ public class Populacja {
 			for(int i = 0 ; i < n; i++) {
 				System.out.println("ADAP:"+adaptation[i]+"| X1:"+Populacja[i].decoding(1)+"; X2:"+Populacja[i].decoding(2));
 			}
-			System.out.println("MIN:"+getMin(adaptation)+" MAX:"+getMax(adaptation));
-		}
-		
-		public int invidualsBelowAVG() {
-			int count = 0;
-			for(int i = 0 ; i < n; i++) {
-				if(adaptation[i] < AVG)
-					count++;
-			}
-			return count;
-		}
-		
-		public int invidualsAboveOrEqualAVG() {
-			int count = 0;
-			int n = adaptation.length;
-			for(int i = 0 ; i < n; i++) {
-				if(adaptation[i] >= AVG)
-					count++;
-			}
-			return count;
+			System.out.println("MIN:"+MIN);
 		}
 		
 		private double calcAVGAdaptation() {
@@ -118,7 +93,7 @@ public class Populacja {
 	Adaptation Adaptation;
 	Czlonek Populacja[];
 	Czlonek base;
-	static double GLOBALMAX = 0.0;
+	static double GLOBALMIN = 0.0;
 
 	
 	public Populacja(Czlonek base,int n) {
@@ -176,10 +151,6 @@ public class Populacja {
 		showPopulacja();
 		System.out.println("======== AVG Populacja'S ADAPTATION==========");
 		System.out.println(Adaptation.AVG);
-		System.out.println("======== COUNT BELOW AVG==========");
-		System.out.println(Adaptation.invidualsBelowAVG());
-		System.out.println("======== COUNT ABOVE OR EQUAL AVG==========");
-		System.out.println(Adaptation.invidualsAboveOrEqualAVG());
 	}
 	
 	

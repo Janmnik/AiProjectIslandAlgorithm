@@ -51,9 +51,9 @@ public class Algorytm{
 		
 		try {
 			//Zapisywacz globalMaxes = new Zapisywacz(String.format("globalMAX%d .txt",PopulacjaLength));
-			double AVGMAX [][] = new double[times][(int)(1000)];
+			double AVGMIN [][] = new double[times][(int)(1000)];
 			double AVGS[][] = new double[times][(int)(1000)];
-			double AVG_GLOBALMAX[][] = new double[50][1000];
+			double AVG_GLOBALMIN[][] = new double[50][1000];
 			
 			//for(int i = 0 ; i < times; i++) {
 				
@@ -78,7 +78,7 @@ public class Algorytm{
 					//AVGMAX[i][j] = populacja.Adaptation.MAX;
 					//AVGS[i][j] = populacja.Adaptation.AVG;
 					
-					najlepszeRozwiazanie = Populacja.GLOBALMAX;
+					najlepszeRozwiazanie = Populacja.GLOBALMIN;
 					//AVG_GLOBALMAX[i][j] = Populacja.GLOBALMAX; 
 					//krok 4 & 5
 					populacja = krzyzowanieChromosomes(populacja);
@@ -108,7 +108,7 @@ public class Algorytm{
 //				localAVG.WriteToFile(String.format("%g", localAVGS[i]));
 //				globalMaxes.WriteToFile(String.format("%g",globalMaxesArr[i]));
 //			}
-			System.out.println("THE BEST SOLUTION "+Populacja.GLOBALMAX);
+			System.out.println("THE BEST SOLUTION "+Populacja.GLOBALMIN);
 			generacja  = 0;
 		}
 		catch(CloneNotSupportedException e) {
@@ -158,11 +158,11 @@ public class Algorytm{
 	
 	
 	private double[] calculateAVGLocal(double[][]arr) {
-		double AVGLocalMAX [] = new double[times];
+		double AVGLocalMIN [] = new double[times];
 		for(int i = 0; i < times;i++) {
-			AVGLocalMAX[i] = calculateAVG(arr[i]);
+			AVGLocalMIN[i] = calculateAVG(arr[i]);
 		}
-		return AVGLocalMAX;
+		return AVGLocalMIN;
 	}
 	
 	private double calculateAVG(double[] arr) {
