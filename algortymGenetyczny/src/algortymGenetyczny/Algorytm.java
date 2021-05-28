@@ -41,11 +41,6 @@ public class Algorytm{
 
 		Rastrigin goal = new Rastrigin(20, n);
 
-		
-
-		
-
-		
 		//1 krok inicjalizacja poczatkowej populacji chromosomow
 		//2 krok ocena przystosowania chromosomow w populacji
 		//3 krok: selekcja choromosomow: ruletka

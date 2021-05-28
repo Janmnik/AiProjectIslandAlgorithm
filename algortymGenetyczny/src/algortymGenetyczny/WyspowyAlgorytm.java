@@ -8,16 +8,6 @@ import java.util.concurrent.CompletableFuture;
 public class WyspowyAlgorytm {
 	
 	
-//	static FunkcjaCeluZad1 calc1 = new FunkcjaCeluZad1() {
-//
-//		@Override
-//		public double func(double x1,double x2) {
-//			return Math.round((-1*( Math.pow(x1, 2) ) - Math.pow(x2, 2) +2.0)*100000d)/100000d; 
-//		}
-//	};
-	
-	
-	
 	private static ArrayList<Double> ewaulujWartosci(ArrayList<Wyspa> wyspy){
 		int index = 0;
 		ArrayList<Double> najlepszeRozwiazaniaWysp = new ArrayList<Double>();
