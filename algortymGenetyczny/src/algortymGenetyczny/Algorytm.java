@@ -1,6 +1,7 @@
 package algortymGenetyczny;
 
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.LinkedList;
 public class Algorytm{
 	
@@ -62,9 +63,10 @@ public class Algorytm{
 			// - najlepsze lokalne rozwiazania
 			// - wartosci przystosowania dla kazdej wartosci ewaulacji
 			// - srednie wartosci f przystosowania dla kazdej wartosci 
-			LinkedList  najlepszeRozwiazaniaGlob [] = new LinkedList[50]; //najlepsze rozwiazania globalne probkowanie co 2k
-			LinkedList  najlepszeRozwiazaniaLok [] = new LinkedList[50]; //najlepsze rozwiazania lokanlne probkowanie co 2k
-			LinkedList  wszystkieRozwiazania [] = new LinkedList[50];
+			
+			ArrayList <LinkedList<Double>> najlepszeRozwiazaniaGlob  = new ArrayList <LinkedList<Double>>();//najlepsze rozwiazania globalne probkowanie co 2k
+			ArrayList <LinkedList<Double>> najlepszeRozwiazaniaLok  = new ArrayList <LinkedList<Double>>();//najlepsze rozwiazania lokanlne probkowanie co 2k
+			ArrayList <LinkedList<Double>> wszystkieRozwiazania  = new ArrayList <LinkedList<Double>>();
 			
 			for(int i = 0 ; i < times; i++) {
 				//krok 1 & 2
@@ -90,6 +92,11 @@ public class Algorytm{
 					j++;
 					adaptationNR++;	
 					
+					for(int k=0;k<populacja.n;k++) {
+						
+						wszystkieRozwiazania.get(i).add(populacja.Adaptation.adaptation[k]);
+				
+					}
 					// TODO: indeks to i
 					//  wszystkieRozwiazania -> populacja.Adaptation.adaptation
 				}
@@ -148,16 +155,21 @@ public class Algorytm{
 	///przerobic aby dzialalo na listach wiazanych
 	
 	//! w liscie wiazanej nie ma indeksowania; dostep po kolei
-	private double[] calculateAVGLocal(double[][]arr) {
-		double AVGLocalMIN [] = new double[times];
+	private double[] calculateAVGLocal(ArrayList<LinkedList<Double>> arr) {
+		Double AVGLocalMIN [] = new Double[times];
+		
 		for(int i = 0; i < times;i++) {
-			AVGLocalMIN[i] = calculateAVG(arr[i]);
+			AVGLocalMIN[i] = calculateAVG(arr);
 		}
 		return AVGLocalMIN;
 	}
 	
-	private double calculateAVG(double[] arr) {
-		return Arrays.stream(arr).average().getAsDouble();
+	private double calculateAVG(LinkedList<Double> list) {
+		double avgList=0;
+		for(int i=0;i<list.size();i++) {
+			avgList+=list.get(i);
+		}
+		return avgList/list.size();
 	}
 	
 }
