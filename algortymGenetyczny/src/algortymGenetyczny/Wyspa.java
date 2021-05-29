@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Wyspa implements Comparable<Wyspa>{
 	
-	static int calosc = 100;
+	static int calosc = 50;
 	static int numerWysp = 1;
 	
 	int numerWyspy;
@@ -16,27 +16,24 @@ public class Wyspa implements Comparable<Wyspa>{
 	double najlepszeRozwiazanie;
 	Algorytm algorytm;
 	
-	public Wyspa(Algorytm _baza, double _env){
-		podpopulacja =  generujPopulacjeWysp(_baza.PopulacjaLength);
+	int licznikNiepowodzen = 0;
+	
+	public Wyspa(Algorytm _baza,double _env){
+		podpopulacja =  generujPopulacjeWysp();
 		algorytm = new Algorytm(_baza.Ai,_baza.Bi,_baza.precision, _baza.n, podpopulacja,_env,_baza.MutacjaPropability,_baza.krzyzowaniePropability,_baza.times);
 		numerWyspy = numerWysp;
 		numerWysp++;
 	}
 	
 	
-	public void run() {
-		this.algorytm.run();
+	public void run(double env) {
+		this.algorytm.run(env);
 		najlepszeRozwiazanie = this.algorytm.najlepszeRozwiazanie;
-	}
-	
-	public void ustawEnv(double _env) {
-		this.algorytm.env = _env;
 	}
 	
 	public static void ustawPopulacje(int populacja) {
 		calosc = populacja;
 	}
-	
 	
 	public static ArrayList<Wyspa> generujWyspy(Algorytm algorytm){
 		
@@ -48,7 +45,7 @@ public class Wyspa implements Comparable<Wyspa>{
 		return wyspy;
 	}
 	
-	private static int generujPopulacjeWysp(int populacjaLength){
+	private static int generujPopulacjeWysp(){
 		
 		int wylosowanaPodpopulacja = getRandomNumber(1,calosc);
 			
@@ -61,12 +58,11 @@ public class Wyspa implements Comparable<Wyspa>{
 	    return (int)((Math.random() * (max - min)) + min);
 	}
 
-
 	@Override
 	public int compareTo(Wyspa w) {
-		if(this.podpopulacja > w.podpopulacja)
+		if(this.najlepszeRozwiazanie > w.najlepszeRozwiazanie)
 			return 1;
-		else if (this.podpopulacja < w.podpopulacja)
+		else if (this.najlepszeRozwiazanie < w.najlepszeRozwiazanie)
 			return -1;
 		else
 		return 0;

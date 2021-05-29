@@ -6,36 +6,35 @@ import java.util.Comparator;
 
 public class WyspowyAlgorytm {
 	
-	
-	//wyliczenie wartosci podpopulacji 
-	private static ArrayList<Double> ewaulujWartosci(ArrayList<Wyspa> wyspy){
-		int index = 0;
-		ArrayList<Double> rozwiazaniaWysp = new ArrayList<Double>();
-		int bierzacaEwaulacja = dajMaxPopulacja(wyspy);
-		int ewaulacje = 1000;
-		for(Wyspa wyspa : wyspy) {
-			System.out.println("========== WYSPA "+wyspa.numerWyspy+" populacja:"+wyspa.podpopulacja+"==============");
-			wyspa.run();
-			rozwiazaniaWysp.add(index, wyspa.najlepszeRozwiazanie); 
-			index++;
-			wyspa.algorytm.najlepszeRozwiazanie  = 0;
-		}
-		return rozwiazaniaWysp;
-	}
-	
-	private static int dajWyspeNiepowodzenia(ArrayList<Double> wynikiWysp){
+	private static Wyspa dajWyspeNiepowodzenia(ArrayList<Wyspa> wyspy){
 		//dla maksimum szukamy min
 		//dla minimum szukamy max
-		return wynikiWysp.indexOf(Collections.max(wynikiWysp));
+		
+//		Wyspa wyspaNajlepsza = wyspy.stream().min(Comparator.comparing(wyspa -> wyspa)).get();
+//		Wyspa wyspaNajgorsza = null;
+//		for(Wyspa wyspa : wyspy)
+//			if(wyspaNajlepsza.compareTo(wyspa) <= -1)
+//				wyspaNajgorsza =  wyspa;
+//		
+//		return wyspaNajgorsza;
+		return wyspy.stream().max(Comparator.comparing(wyspa -> wyspa)).get();
 	}
 	
-	
 	private static int dajMaxPopulacja(ArrayList<Wyspa> wyspy) {
-		return wyspy.stream().max(Comparator.comparing(wyspa -> wyspa)).get().podpopulacja;
+		Comparator<Wyspa> porownywaczPopulacji = new Comparator<Wyspa>() {
+			public int compare(Wyspa w1, Wyspa w2) {
+				if(w1.podpopulacja < w2.podpopulacja)
+					return 1;
+				else if(w1.podpopulacja > w2.podpopulacja)
+					return -1;
+				else return 0;
+			}
+		};
+		Collections.sort(wyspy,porownywaczPopulacji);
+		return wyspy.get(0).podpopulacja; 
 	}
 	
 	public static void main(String[] args) throws CloneNotSupportedException {
-		
 		
 		//Krok 1: stworz wyspy
 		//Krok 2: wykonaj adaptajce populacji na wyspach
@@ -47,44 +46,58 @@ public class WyspowyAlgorytm {
 		//jesli wiecej niz x razy
 		//usun wyspe
 		
-		int ewaulacje = 1000;
-		int bierzacaEwaulacja = 50;
-		//krok 1
+		int ewaulacje = 2000;	
 		
-		ArrayList<Wyspa> wyspy = Wyspa.generujWyspy(new Algorytm(-2,2,100000d,10,100,ewaulacje,0.02,0.6,50));
-		
-		
-		
-		ArrayList<Double> rozwiazaniaWysp = new ArrayList<Double>();
-		ArrayList<Integer>ileRazyNiePoprawiono = new ArrayList<Integer>();
+		ArrayList<Wyspa> wyspy = Wyspa.generujWyspy(new Algorytm(-2,2,100000d,10,20,ewaulacje,0.02,0.6,50));
+	
 		int maxNiepowodzen = 7;
-		int index = 0;
 		
 		try {
+		
+		int najwiekszaPopulacja = dajMaxPopulacja(wyspy);
+		int envKrok = ewaulacje / najwiekszaPopulacja / wyspy.size();
+		int env = envKrok;
+		System.out.println("Najwieksza populacja "+najwiekszaPopulacja);
+		Wyspa rozwiazanie;
 		while(wyspy.size() > 1) {
-		
-			rozwiazaniaWysp = ewaulujWartosci(wyspy);
-		
-			int numerWyspyNiepowodzenia = dajWyspeNiepowodzenia(rozwiazaniaWysp);
 			
-			int licznik = ileRazyNiePoprawiono.get(numerWyspyNiepowodzenia);
-			
-		
-			if(licznik >= maxNiepowodzen) {
-				wyspy.remove(numerWyspyNiepowodzenia);
-				ileRazyNiePoprawiono.remove(numerWyspyNiepowodzenia);
+			while(env < ewaulacje) {
+	
+				for(Wyspa wyspa : wyspy) {
+						System.out.println("========== WYSPA "+wyspa.numerWyspy+" populacja:"+wyspa.podpopulacja+"==============");
+						wyspa.run(env);
+						//wyspa.algorytm.najlepszeRozwiazanie  = 0;
+						System.out.println("Liczb niepowodzen"+wyspa.licznikNiepowodzen);
+					}			
+					
+					if(wyspy.size() == 1)
+						break;
+					
+					Wyspa wyspa = dajWyspeNiepowodzenia(wyspy);
+					int licznik = wyspa.licznikNiepowodzen;
+					
+					if(licznik >= maxNiepowodzen) {
+						wyspy.remove(wyspa);
+						System.out.println("usunąłem wyspę");
+					}
+					else {
+						wyspa.licznikNiepowodzen += 1;
+					}
+				
+				
+				System.out.println("env "+env);
+				env+=envKrok;
 			}
-			else {
-				ileRazyNiePoprawiono.add(numerWyspyNiepowodzenia, licznik+1);
-			}
-		
 		}
 		}catch(IndexOutOfBoundsException e) {
-			
+			e.printStackTrace();
 		}
-		
-
-		System.out.println("wyspa "+wyspy.get(0).numerWyspy+" "+wyspy.get(0).najlepszeRozwiazanie);
-
+		catch(java.util.NoSuchElementException brakWyspException) {
+			System.out.println("Brak wysp");
+			return;
+		}
+		for(Wyspa wyspa : wyspy)
+			System.out.println("wyspa "+wyspa.numerWyspy+" "+wyspa.najlepszeRozwiazanie);
+		return;
 	}
 }
