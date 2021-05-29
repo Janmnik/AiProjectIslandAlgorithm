@@ -55,13 +55,13 @@ public class WyspowyAlgorytm {
 		try {
 		
 		int najwiekszaPopulacja = dajMaxPopulacja(wyspy);
-		int envKrok = ewaulacje / najwiekszaPopulacja / wyspy.size();
+		int envKrok = ewaulacje;
 		int env = envKrok;
 		System.out.println("Najwieksza populacja "+najwiekszaPopulacja);
 		Wyspa rozwiazanie;
 		while(wyspy.size() > 1) {
 			
-			while(env < ewaulacje) {
+			//while(env < ewaulacje) {
 	
 				for(Wyspa wyspa : wyspy) {
 						System.out.println("========== WYSPA "+wyspa.numerWyspy+" populacja:"+wyspa.podpopulacja+"==============");
@@ -88,7 +88,7 @@ public class WyspowyAlgorytm {
 				System.out.println("env "+env);
 				env+=envKrok;
 			}
-		}
+		//}
 		}catch(IndexOutOfBoundsException e) {
 			e.printStackTrace();
 		}
