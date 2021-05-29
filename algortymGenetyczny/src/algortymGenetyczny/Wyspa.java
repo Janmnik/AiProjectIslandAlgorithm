@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Wyspa implements Comparable<Wyspa>{
 	
-	static int calosc = 50;
+	static int calosc = 20;
 	static int numerWysp = 1;
 	
 	int numerWyspy;

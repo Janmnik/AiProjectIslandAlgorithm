@@ -1,6 +1,7 @@
 package algortymGenetyczny;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 public class Algorytm{
 	
 	public double Ai;
@@ -52,11 +53,20 @@ public class Algorytm{
 		
 		try {
 			//Zapisywacz globalMaxes = new Zapisywacz(String.format("globalMAX%d .txt",PopulacjaLength));
-			double AVGMIN [][] = new double[times][(int)(1000)];
-			double AVGS[][] = new double[times][(int)(1000)];
-			double AVG_GLOBALMIN[][] = new double[50][1000];
+			//double AVGMIN [][] = new double[times][(int)(1000)];
+			//double AVGS[][] = new double[times][(int)(1000)];
+			//double AVG_GLOBALMIN[][] = new double[50][1000];
 			
-			//for(int i = 0 ; i < times; i++) {
+			//pomiary:
+			// - najlepsze globalne rozwiazania
+			// - najlepsze lokalne rozwiazania
+			// - wartosci przystosowania dla kazdej wartosci ewaulacji
+			// - srednie wartosci f przystosowania dla kazdej wartosci 
+			LinkedList  najlepszeRozwiazaniaGlob [] = new LinkedList[50]; //najlepsze rozwiazania globalne probkowanie co 2k
+			LinkedList  najlepszeRozwiazaniaLok [] = new LinkedList[50]; //najlepsze rozwiazania lokanlne probkowanie co 2k
+			LinkedList  wszystkieRozwiazania [] = new LinkedList[50];
+			
+			for(int i = 0 ; i < times; i++) {
 				//krok 1 & 2
 				populacja.adaptPopulacja(goal);	
 				int j = 0;
@@ -79,14 +89,13 @@ public class Algorytm{
 					//populacja.Adaptation.showAdaptation();
 					j++;
 					adaptationNR++;	
+					
+					// TODO: indeks to i
+					//  wszystkieRozwiazania -> populacja.Adaptation.adaptation
 				}
 				
 				firstRun = false;
-			//}
-			
-			double localMins[] =  calculateAVGLocal(AVGMIN);
-			double localAVGS[] = calculateAVGLocal(AVGS);
-//			double globalMaxesArr[] = calculateAVGLocal(AVG_GLOBALMAX);
+			}
 			
 			System.out.println("THE BEST SOLUTION "+populacja.GLOBALMIN);
 			//generacja  = 0;
@@ -136,7 +145,9 @@ public class Algorytm{
 		return krzyzowaniePopulacja;
 	}
 	
+	///przerobic aby dzialalo na listach wiazanych
 	
+	//! w liscie wiazanej nie ma indeksowania; dostep po kolei
 	private double[] calculateAVGLocal(double[][]arr) {
 		double AVGLocalMIN [] = new double[times];
 		for(int i = 0; i < times;i++) {
