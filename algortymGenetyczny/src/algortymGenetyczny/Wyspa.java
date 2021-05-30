@@ -1,7 +1,6 @@
 package algortymGenetyczny;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Wyspa implements Comparable<Wyspa>{
 	
@@ -13,11 +12,14 @@ public class Wyspa implements Comparable<Wyspa>{
 	int powtorzenie;
 	
 	double najlepszeRozwiazanie;
+	
+	
 	static int env = 2000;
 	Algorytm algorytmBazowy;
 	
 	int licznikNiepowodzen = 0;
 	
+	ArrayList<Double> najlepszeRozwiazaniaLokalne= new ArrayList<Double>();
 	
 	public Wyspa(Algorytm _baza){
 		podpopulacja =  generujPopulacjeWysp();
@@ -36,6 +38,7 @@ public class Wyspa implements Comparable<Wyspa>{
 			alg.run(env);
 			
 		najlepszeRozwiazanie = alg.najlepszeRozwiazanie;
+		this.najlepszeRozwiazaniaLokalne = alg.najlepszeRozwiazaniaLokalne;
 	}
 	
 	public static void ustawPopulacje(int populacja) {

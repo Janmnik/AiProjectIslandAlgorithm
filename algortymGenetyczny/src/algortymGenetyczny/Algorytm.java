@@ -1,6 +1,5 @@
 package algortymGenetyczny;
 import java.util.ArrayList;
-import java.util.LinkedList;
 public class Algorytm{
 	
 	public double Ai;
@@ -15,6 +14,7 @@ public class Algorytm{
 	public int generacja;
 	
 	public double najlepszeRozwiazanie;
+	public ArrayList <Double> najlepszeRozwiazaniaLokalne = new ArrayList <Double>();//najlepsze rozwiazania lokanlne probkowanie co 2k
 	
 	public Populacja populacja;
 	int adaptationNR = 0;
@@ -72,15 +72,9 @@ public class Algorytm{
 			// - najlepsze globalne rozwiazania
 			// - najlepsze lokalne rozwiazania
 			// - wartosci przystosowania dla kazdej wartosci ewaulacji
-			// - srednie wartosci f przystosowania dla kazdej wartosci 
+			// - srednie wartosci f przystosowania dla kazdej wartosci 	
 			
-			ArrayList <LinkedList<Double>> najlepszeRozwiazaniaLok  = new ArrayList <LinkedList<Double>>();//najlepsze rozwiazania lokanlne probkowanie co 2k
-			
-			for(int i = 0; i < 50;i++) {
-				najlepszeRozwiazaniaLok.add(new LinkedList<Double>());
-			}
-			
-			ArrayList <LinkedList<Double>> wszystkieRozwiazania  = new ArrayList <LinkedList<Double>>();
+			//ArrayList <Double> wszystkieRozwiazania = new ArrayList <Double>();
 			
 				//krok 1 & 2
 				populacja.adaptPopulacja(goal);	
@@ -91,9 +85,9 @@ public class Algorytm{
 					
 					populacja = new Turniej(populacja).PopulacjaNajlepszaWygrana();
 					
-					
 					najlepszeRozwiazanie = populacja.GLOBALMIN;
-				
+					
+					najlepszeRozwiazaniaLokalne.add(populacja.Adaptation.MIN);
 					//krok 4 & 5
 					populacja = krzyzowanieChromosomes(populacja);
 					populacja = mutatePopulacja(populacja);
@@ -156,29 +150,5 @@ public class Algorytm{
 		}
 		
 		return krzyzowaniePopulacja;
-	}
-	
-	///przerobic aby dzialalo na listach wiazanych
-	
-	//! w liscie wiazanej nie ma indeksowania; dostep po kolei
-	
-	 private ArrayList<Double> calculateAVGLocal(ArrayList < LinkedList < Double >> list) {
-		   ArrayList<Double> AVGLocalMIN = new ArrayList<Double>();
-
-		   for (int i = 0; i < 50; i++) {
-		     AVGLocalMIN.add(calculateAVG(list.get(i)));
-		   }
-		   return AVGLocalMIN;
-		 }
-
-		 private Double calculateAVG(LinkedList < Double > list) {
-		   double avgList = 0;
-		   for (int i = 0; i < list.size(); i++) {
-		     avgList += list.get(i);
-		   }
-		   return
-		   avgList / list.size();
-		 }
-	
-	
+	}	
 }
