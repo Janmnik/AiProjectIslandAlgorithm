@@ -1,34 +1,43 @@
 package algortymGenetyczny;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Wyspa implements Comparable<Wyspa>{
 	
-	static int calosc = 20;
+	static int calosc = 10;
 	static int numerWysp = 1;
 	
 	int numerWyspy;
 	int podpopulacja;
-	
-	static double globalNajlepszeRozwiazanie = 0;
-	static int NumerNajlepszejWyspy = 0;
+	int powtorzenie;
 	
 	double najlepszeRozwiazanie;
-	Algorytm algorytm;
+	ArrayList<Double> najlepszeRozwiazania = new ArrayList<Double>();
+	static int env = 2000;
+	Algorytm algorytmBazowy;
 	
 	int licznikNiepowodzen = 0;
 	
-	public Wyspa(Algorytm _baza,double _env){
+	
+	public Wyspa(Algorytm _baza){
 		podpopulacja =  generujPopulacjeWysp();
-		algorytm = new Algorytm(_baza.Ai,_baza.Bi,_baza.precision, _baza.n, podpopulacja,_env,_baza.MutacjaPropability,_baza.krzyzowaniePropability,_baza.times);
 		numerWyspy = numerWysp;
+		algorytmBazowy = new Algorytm(_baza.Ai,_baza.Bi,_baza.precision, _baza.n, podpopulacja,env,_baza.MutacjaPropability,_baza.krzyzowaniePropability);
 		numerWysp++;
 	}
 	
+	//do wyliczenia sredniej
+	private Algorytm stworzAlgorytm(Algorytm _baza) {
+		return new Algorytm(numerWyspy,_baza.Ai,_baza.Bi,_baza.precision, _baza.n, podpopulacja,env,_baza.MutacjaPropability,_baza.krzyzowaniePropability);
+	}
 	
 	public void run(double env) {
-		this.algorytm.run(env);
-		najlepszeRozwiazanie = this.algorytm.najlepszeRozwiazanie;
+		Algorytm alg = stworzAlgorytm(algorytmBazowy);
+			alg.run(env);
+			najlepszeRozwiazania.add(alg.najlepszeRozwiazanie);
+			
+		najlepszeRozwiazanie = alg.najlepszeRozwiazanie;
 	}
 	
 	public static void ustawPopulacje(int populacja) {
@@ -39,7 +48,7 @@ public class Wyspa implements Comparable<Wyspa>{
 		
 		ArrayList<Wyspa> wyspy = new ArrayList<Wyspa>();
 		while(calosc > 0) {
-			wyspy.add(new Wyspa(algorytm,20));
+			wyspy.add(new Wyspa(algorytm));
 		}
 		
 		return wyspy;

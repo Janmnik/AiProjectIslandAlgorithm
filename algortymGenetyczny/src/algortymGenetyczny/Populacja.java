@@ -16,7 +16,6 @@ public class Populacja {
 			this.Populacja = Populacja;
 			this.adaptation = adaptPopulacja(goal);
 			this.AVG = calcAVGAdaptation();
-			this.MIN = getMin(adaptation);
 		}
 		
 			

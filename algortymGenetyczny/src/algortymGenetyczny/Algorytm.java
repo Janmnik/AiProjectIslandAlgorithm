@@ -1,6 +1,4 @@
 package algortymGenetyczny;
-
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.LinkedList;
 public class Algorytm{
@@ -13,8 +11,6 @@ public class Algorytm{
 	
 	public int n, PopulacjaLength;
 	public double precision;
-	public int times;
-	private boolean firstRun = true;
 	
 	public int generacja;
 	
@@ -22,8 +18,10 @@ public class Algorytm{
 	
 	public Populacja populacja;
 	int adaptationNR = 0;
+	int nrWyspy;
 	
-	public Algorytm(double _Ai, double _Bi,double _precision,int _n,int _PopulacjaLength,double _env,double _MutacjaPropability, double _krzyzowaniePropability, int _times) {
+	public Algorytm(int _nrWyspy,double _Ai, double _Bi,double _precision,int _n,int _PopulacjaLength,double _env,double _MutacjaPropability, double _krzyzowaniePropability) {
+		nrWyspy = _nrWyspy;
 		Ai = _Ai;
 		Bi = _Bi;
 		MutacjaPropability = _MutacjaPropability;
@@ -32,13 +30,25 @@ public class Algorytm{
 		PopulacjaLength = _PopulacjaLength;
 		env = _env;
 		n = _n;
-		times = _times;
 		Czlonek baseChromosome = new Czlonek(Ai,Bi,n,precision);
 		populacja = new Populacja(baseChromosome,PopulacjaLength);
-		
+	}
+	
+	public Algorytm(double _Ai, double _Bi,double _precision,int _n,int _PopulacjaLength,double _env,double _MutacjaPropability, double _krzyzowaniePropability) {
+		Ai = _Ai;
+		Bi = _Bi;
+		MutacjaPropability = _MutacjaPropability;
+		krzyzowaniePropability = _krzyzowaniePropability;
+		precision = _precision;
+		PopulacjaLength = _PopulacjaLength;
+		env = _env;
+		n = _n;
+		Czlonek baseChromosome = new Czlonek(Ai,Bi,n,precision);
+		populacja = new Populacja(baseChromosome,PopulacjaLength);
 	}
 	
 	public void run(double env){
+		
 		
 		//funkcja celu:
 
@@ -64,16 +74,15 @@ public class Algorytm{
 			// - wartosci przystosowania dla kazdej wartosci ewaulacji
 			// - srednie wartosci f przystosowania dla kazdej wartosci 
 			
-			ArrayList <LinkedList<Double>> najlepszeRozwiazaniaGlob  = new ArrayList <LinkedList<Double>>();//najlepsze rozwiazania globalne probkowanie co 2k
+			//ArrayList <LinkedList<Double>> najlepszeRozwiazaniaGlob  = new ArrayList <LinkedList<Double>>();//najlepsze rozwiazania globalne probkowanie co 2k
 			ArrayList <LinkedList<Double>> najlepszeRozwiazaniaLok  = new ArrayList <LinkedList<Double>>();//najlepsze rozwiazania lokanlne probkowanie co 2k
 			ArrayList <LinkedList<Double>> wszystkieRozwiazania  = new ArrayList <LinkedList<Double>>();
 			
-			for(int i = 0 ; i < times; i++) {
 				//krok 1 & 2
 				populacja.adaptPopulacja(goal);	
-				int j = 0;
 				
 				while(adaptationNR < env) {
+
 					//krok 3
 					
 					populacja = new Turniej(populacja).PopulacjaNajlepszaWygrana();
@@ -89,23 +98,18 @@ public class Algorytm{
 					//System.out.println("GENERACJA "+generacja);
 					generacja++;
 					//populacja.Adaptation.showAdaptation();
-					j++;
+					
 					adaptationNR++;	
 					
 					for(int k=0;k<populacja.n;k++) {
+						//wszystkieRozwiazania.get(i).add(populacja.Adaptation.adaptation[k]);
 						
-						wszystkieRozwiazania.get(i).add(populacja.Adaptation.adaptation[k]);
-				
 					}
-					// TODO: indeks to i
-					//  wszystkieRozwiazania -> populacja.Adaptation.adaptation
-				}
 				
-				firstRun = false;
-			}
+				}
 			
 			System.out.println("THE BEST SOLUTION "+populacja.GLOBALMIN);
-			//generacja  = 0;
+			generacja  = 0;
 		}
 		catch(CloneNotSupportedException e) {
 			e.printStackTrace();
@@ -155,21 +159,16 @@ public class Algorytm{
 	///przerobic aby dzialalo na listach wiazanych
 	
 	//! w liscie wiazanej nie ma indeksowania; dostep po kolei
-	private double[] calculateAVGLocal(ArrayList<LinkedList<Double>> arr) {
-		Double AVGLocalMIN [] = new Double[times];
-		
-		for(int i = 0; i < times;i++) {
-			AVGLocalMIN[i] = calculateAVG(arr);
-		}
-		return AVGLocalMIN;
-	}
-	
-	private double calculateAVG(LinkedList<Double> list) {
-		double avgList=0;
-		for(int i=0;i<list.size();i++) {
-			avgList+=list.get(i);
-		}
-		return avgList/list.size();
-	}
+	/*
+	 * private double[] calculateAVGLocal(ArrayList<LinkedList<Double>> arr) {
+	 * Double AVGLocalMIN [] = new Double[times];
+	 * 
+	 * for(int i = 0; i < times;i++) { AVGLocalMIN[i] = calculateAVG(arr); } return
+	 * AVGLocalMIN; }
+	 * 
+	 * private double calculateAVG(LinkedList<Double> list) { double avgList=0;
+	 * for(int i=0;i<list.size();i++) { avgList+=list.get(i); } return
+	 * avgList/list.size(); }
+	 */
 	
 }
