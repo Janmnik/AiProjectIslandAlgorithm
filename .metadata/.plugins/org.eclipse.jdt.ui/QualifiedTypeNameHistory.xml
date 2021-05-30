@@ -2,5 +2,6 @@
 <qualifiedTypeNameHistroy>
     <fullyQualifiedTypeName name="algortymGenetyczny.Wyspa"/>
     <fullyQualifiedTypeName name="java.util.Comparator"/>
+    <fullyQualifiedTypeName name="java.util.Arrays"/>
     <fullyQualifiedTypeName name="java.util.Collections"/>
 </qualifiedTypeNameHistroy>

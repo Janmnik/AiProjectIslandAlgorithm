@@ -5,7 +5,7 @@ import java.util.Collections;
 
 public class Wyspa implements Comparable<Wyspa>{
 	
-	static int calosc = 10;
+	static int calosc = WyspowyAlgorytm.calaPopulacja;
 	static int numerWysp = 1;
 	
 	int numerWyspy;
@@ -13,7 +13,6 @@ public class Wyspa implements Comparable<Wyspa>{
 	int powtorzenie;
 	
 	double najlepszeRozwiazanie;
-	ArrayList<Double> najlepszeRozwiazania = new ArrayList<Double>();
 	static int env = 2000;
 	Algorytm algorytmBazowy;
 	
@@ -23,7 +22,7 @@ public class Wyspa implements Comparable<Wyspa>{
 	public Wyspa(Algorytm _baza){
 		podpopulacja =  generujPopulacjeWysp();
 		numerWyspy = numerWysp;
-		algorytmBazowy = new Algorytm(_baza.Ai,_baza.Bi,_baza.precision, _baza.n, podpopulacja,env,_baza.MutacjaPropability,_baza.krzyzowaniePropability);
+		algorytmBazowy = new Algorytm(_baza.Ai,_baza.Bi,_baza.precision, _baza.n,  podpopulacja,env,_baza.MutacjaPropability,_baza.krzyzowaniePropability);
 		numerWysp++;
 	}
 	
@@ -35,7 +34,6 @@ public class Wyspa implements Comparable<Wyspa>{
 	public void run(double env) {
 		Algorytm alg = stworzAlgorytm(algorytmBazowy);
 			alg.run(env);
-			najlepszeRozwiazania.add(alg.najlepszeRozwiazanie);
 			
 		najlepszeRozwiazanie = alg.najlepszeRozwiazanie;
 	}
