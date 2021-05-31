@@ -7,7 +7,8 @@ import java.util.Comparator;
 public class WyspowyAlgorytm {
 
   static int calaPopulacja = 10;
-  static int powtorzenia = 10;
+  static int powtorzenia = 50;
+  int powtorzeniaA = 0;
   
   private static Wyspa dajWyspeNiepowodzenia(ArrayList < Wyspa > wyspy) {
     //dla maksimum szukamy min
@@ -59,7 +60,7 @@ public class WyspowyAlgorytm {
         env = 2000;
     	try { 
     	  
-        ArrayList < Wyspa > wyspy = Wyspa.generujWyspy(new Algorytm( - 2, 2, 100000d, 10, 20, ewaulacje, 0.02, 0.6));
+        ArrayList < Wyspa > wyspy = Wyspa.generujWyspy(new Algorytm( -5.12, 5.12, 1000d, 10, calaPopulacja, ewaulacje, 0.02, 0.6));
       
         while (wyspy.size() > 1) {
          	
@@ -67,8 +68,9 @@ public class WyspowyAlgorytm {
             System.out.println("========== WYSPA " + wyspa.numerWyspy + " populacja:" + wyspa.podpopulacja + "==============");
             wyspa.run(env);
             System.out.println("Liczb niepowodzen" + wyspa.licznikNiepowodzen);
-            
-            historiaWysp.get(i-1).add(wyspa);
+           
+            zapiszNajlepszeLokalneRozwiazania(wyspa,i);
+            zapiszWszysktieWartosciFunkcji(wyspa, i);
           }
           
           if (wyspy.size() == 1) break;
@@ -104,12 +106,11 @@ public class WyspowyAlgorytm {
       }
     }
   //pomiar najlepszych loklanych rozwiazan
-    zapiszNajlepszeLokalneRozwiazania(historiaWysp);
+    
   }
   
-  static void zapiszNajlepszeGlobalneRozwiazania(ArrayList<Wyspa> najlepsze) {
+  private static void zapiszNajlepszeGlobalneRozwiazania(ArrayList<Wyspa> najlepsze) {
 	  Zapisywacz zapisywaczNajlepszychGlobalnie = new Zapisywacz("najlepszeGlobalnieWyspy"+calaPopulacja+".txt");
-	  zapisywaczNajlepszychGlobalnie.WriteToFile("wyspa;populacja;wartosc");
 	  for(Wyspa wyspa : najlepsze) {
 		  String daneOWyspie = ""+wyspa.numerWyspy+";"+wyspa.podpopulacja+";"+wyspa.najlepszeRozwiazanie;
 		  zapisywaczNajlepszychGlobalnie.WriteToFile(daneOWyspie);
@@ -117,25 +118,26 @@ public class WyspowyAlgorytm {
 	  zapisywaczNajlepszychGlobalnie.zamknij();
   }
   
-  private static void zapiszNajlepszeLokalneRozwiazania(ArrayList<ArrayList<Wyspa>> wyspy) {
+  public static void zapiszWszysktieWartosciFunkcji(Wyspa wyspa, int powtorzenie) {
+	  Zapisywacz zapisywaczWszystkich= new Zapisywacz("wszystkieWartosciWyspy"+"."+powtorzenie+"."+wyspa.numerWyspy+"."+wyspa.podpopulacja+".txt");
+		for(int i = 0; i < wyspa.algorytmObecny.populacja.n;i++) {
+		
+			zapisywaczWszystkich.WriteToFile(""+wyspa.algorytmObecny.populacja.Adaptation.adaptation[i]);
+		}	 
+	  zapisywaczWszystkich.zamknij(); 
+  }
+    
+  private static void zapiszNajlepszeLokalneRozwiazania(Wyspa wyspa, int powtorzenie) {
 	  
-	  Zapisywacz zapisywaczNajlepszychLokalnie = new Zapisywacz("najlepszeLokalneWyspy"+calaPopulacja+".txt");
+	  Zapisywacz zapisywaczNajlepszychLokalnie = new Zapisywacz("najlepszeLokalneWyspy"+powtorzenie+"."+calaPopulacja+"."+".txt");
 	  zapisywaczNajlepszychLokalnie.WriteToFile("wyspa;populacja;wartosc");
-	  System.out.println("WYMIARY");
-	  for(int k = 0; k < wyspy.size(); k++) {
-		  
-		  for(int i = 0; i < wyspy.get(k).size();i++) {
-			  String daneOWyspie = ""+wyspy.get(i).get(k).numerWyspy+";"+wyspy.get(i).get(k).podpopulacja+";"+calculateAVG(wyspy.get(i).get(k).najlepszeRozwiazaniaLokalne);
-			  System.out.println(daneOWyspie);
-			  zapisywaczNajlepszychLokalnie.WriteToFile(daneOWyspie);
-//			  System.out.println(wyspy.size());
-//			  System.out.print(wyspy.get(i).size()+",");
-//			  System.out.println("");
-		  }
-	  }
+		for(int i = 0; i < wyspa.najlepszeRozwiazaniaLokalne.size();i++) {
+			String daneOWyspie = ""+wyspa.numerWyspy+";"+wyspa.podpopulacja+";"+wyspa.najlepszeRozwiazaniaLokalne.get(i);
+			zapisywaczNajlepszychLokalnie.WriteToFile(daneOWyspie);
+		}	 
 	  zapisywaczNajlepszychLokalnie.zamknij();
   }
-  
+    
   private static Double calculateAVG(ArrayList< Double > rozwiazania) {
 		   double avgList = 0;
 		   for (int i = 0; i < rozwiazania.size(); i++) {

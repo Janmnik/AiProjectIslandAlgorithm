@@ -15,6 +15,7 @@ public class Algorytm{
 	
 	public double najlepszeRozwiazanie;
 	public ArrayList <Double> najlepszeRozwiazaniaLokalne = new ArrayList <Double>();//najlepsze rozwiazania lokanlne probkowanie co 2k
+	public ArrayList <Double> wszystkieRozwiazania = new ArrayList <Double>();
 	
 	public Populacja populacja;
 	int adaptationNR = 0;
@@ -106,6 +107,7 @@ public class Algorytm{
 			
 			System.out.println("THE BEST SOLUTION "+populacja.GLOBALMIN);
 			generacja  = 0;
+			adaptationNR = 0;
 		}
 		catch(CloneNotSupportedException e) {
 			e.printStackTrace();
@@ -150,5 +152,6 @@ public class Algorytm{
 		}
 		
 		return krzyzowaniePopulacja;
-	}	
+	}
+
 }

@@ -16,10 +16,12 @@ public class Wyspa implements Comparable<Wyspa>{
 	
 	static int env = 2000;
 	Algorytm algorytmBazowy;
+	Algorytm algorytmObecny;
 	
 	int licznikNiepowodzen = 0;
 	
 	ArrayList<Double> najlepszeRozwiazaniaLokalne= new ArrayList<Double>();
+	ArrayList<Double> wszystkieRozwiazania = new ArrayList<Double>();
 	
 	public Wyspa(Algorytm _baza){
 		podpopulacja =  generujPopulacjeWysp();
@@ -34,11 +36,11 @@ public class Wyspa implements Comparable<Wyspa>{
 	}
 	
 	public void run(double env) {
-		Algorytm alg = stworzAlgorytm(algorytmBazowy);
-			alg.run(env);
+		algorytmObecny = stworzAlgorytm(algorytmBazowy);
+		algorytmObecny.run(env);
 			
-		najlepszeRozwiazanie = alg.najlepszeRozwiazanie;
-		this.najlepszeRozwiazaniaLokalne = alg.najlepszeRozwiazaniaLokalne;
+		najlepszeRozwiazanie = algorytmObecny.najlepszeRozwiazanie;
+		this.najlepszeRozwiazaniaLokalne = algorytmObecny.najlepszeRozwiazaniaLokalne;
 	}
 	
 	public static void ustawPopulacje(int populacja) {

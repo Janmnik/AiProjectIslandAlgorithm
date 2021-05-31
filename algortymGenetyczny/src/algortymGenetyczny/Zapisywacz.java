@@ -6,12 +6,9 @@ import java.io.IOException;
 
 public class Zapisywacz {
 	
-	private String fileName;
-	
 	public BufferedWriter writer;
 	
 	public Zapisywacz(String fileName) {
-		this.fileName = fileName;
 		try {
 		writer = new BufferedWriter(new FileWriter(fileName, true));
 		}
