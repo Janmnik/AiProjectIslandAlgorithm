@@ -1,24 +1,28 @@
 package algortymGenetyczny;
-
-import java.util.Arrays;
+import java.util.ArrayList;
 public class Algorytm{
 	
 	public double Ai;
 	public double Bi;
 	public double MutacjaPropability;
 	public double krzyzowaniePropability;
-	public double env;
+	public static double env;
 	
 	public int n, PopulacjaLength;
 	public double precision;
-	public int times;
-	private boolean firstRun = true;
 	
 	public int generacja;
 	
 	public double najlepszeRozwiazanie;
+	public ArrayList <Double> najlepszeRozwiazaniaLokalne = new ArrayList <Double>();//najlepsze rozwiazania lokanlne probkowanie co 2k
+	public ArrayList <Double> wszystkieRozwiazania = new ArrayList <Double>();
 	
-	public Algorytm(double _Ai, double _Bi,double _precision,int _n,int _PopulacjaLength,double _env,double _MutacjaPropability, double _krzyzowaniePropability, int _times) {
+	public Populacja populacja;
+	int adaptationNR = 0;
+	int nrWyspy;
+	
+	public Algorytm(int _nrWyspy,double _Ai, double _Bi,double _precision,int _n,int _PopulacjaLength,double _env,double _MutacjaPropability, double _krzyzowaniePropability) {
+		nrWyspy = _nrWyspy;
 		Ai = _Ai;
 		Bi = _Bi;
 		MutacjaPropability = _MutacjaPropability;
@@ -27,19 +31,29 @@ public class Algorytm{
 		PopulacjaLength = _PopulacjaLength;
 		env = _env;
 		n = _n;
-		times = _times;
+		Czlonek baseChromosome = new Czlonek(Ai,Bi,n,precision);
+		populacja = new Populacja(baseChromosome,PopulacjaLength);
 	}
 	
-	
-	public void ustawEnv(double _env) {
-		this.env = _env;
+	public Algorytm(double _Ai, double _Bi,double _precision,int _n,int _PopulacjaLength,double _env,double _MutacjaPropability, double _krzyzowaniePropability) {
+		Ai = _Ai;
+		Bi = _Bi;
+		MutacjaPropability = _MutacjaPropability;
+		krzyzowaniePropability = _krzyzowaniePropability;
+		precision = _precision;
+		PopulacjaLength = _PopulacjaLength;
+		env = _env;
+		n = _n;
+		Czlonek baseChromosome = new Czlonek(Ai,Bi,n,precision);
+		populacja = new Populacja(baseChromosome,PopulacjaLength);
 	}
 	
-	public void run(){
+	public void run(double env){
+		
 		
 		//funkcja celu:
 
-		Rastrigin goal = new Rastrigin(20, n);
+		Rastrigin goal = new Rastrigin(10, n);
 
 		//1 krok inicjalizacja poczatkowej populacji chromosomow
 		//2 krok ocena przystosowania chromosomow w populacji
@@ -51,65 +65,49 @@ public class Algorytm{
 		
 		try {
 			//Zapisywacz globalMaxes = new Zapisywacz(String.format("globalMAX%d .txt",PopulacjaLength));
-			double AVGMIN [][] = new double[times][(int)(1000)];
-			double AVGS[][] = new double[times][(int)(1000)];
-			double AVG_GLOBALMIN[][] = new double[50][1000];
+			//double AVGMIN [][] = new double[times][(int)(1000)];
+			//double AVGS[][] = new double[times][(int)(1000)];
+			//double AVG_GLOBALMIN[][] = new double[50][1000];
 			
-			//for(int i = 0 ; i < times; i++) {
-				
-				generacja  = 0;
-				Czlonek baseChromosome = new Czlonek(Ai,Bi,n,precision);
+			//pomiary:
+			// - najlepsze globalne rozwiazania
+			// - najlepsze lokalne rozwiazania
+			// - wartosci przystosowania dla kazdej wartosci ewaulacji
+			// - srednie wartosci f przystosowania dla kazdej wartosci 	
+			
+			//ArrayList <Double> wszystkieRozwiazania = new ArrayList <Double>();
+			
 				//krok 1 & 2
-				Populacja populacja = new Populacja(baseChromosome,PopulacjaLength);
 				populacja.adaptPopulacja(goal);	
-				int j = 0;
-				
-				int adaptationNR = 0;
 				
 				while(adaptationNR < env) {
+
 					//krok 3
 					
-					if(firstRun == true && adaptationNR % 20 == 0) {
-						//Zapisywacz adaptationSteps = new Zapisywacz(String.format("adaptationSteps%d .txt", PopulacjaLength));
-						//adaptationSteps.WriteToFile(String.format("%d", adaptationNR));
-					}
-					
 					populacja = new Turniej(populacja).PopulacjaNajlepszaWygrana();
-					//AVGMAX[i][j] = populacja.Adaptation.MAX;
-					//AVGS[i][j] = populacja.Adaptation.AVG;
 					
-					najlepszeRozwiazanie = Populacja.GLOBALMIN;
-					//AVG_GLOBALMAX[i][j] = Populacja.GLOBALMAX; 
+					najlepszeRozwiazanie = populacja.GLOBALMIN;
+					
+					najlepszeRozwiazaniaLokalne.add(populacja.Adaptation.MIN);
 					//krok 4 & 5
 					populacja = krzyzowanieChromosomes(populacja);
 					populacja = mutatePopulacja(populacja);
 					
-					System.out.println("GENERACJA "+generacja);
+					//System.out.println("GENERACJA "+generacja);
 					generacja++;
-					populacja.Adaptation.showAdaptation();
-					j++;
+					
 					adaptationNR++;	
+					
+					for(int k=0;k<populacja.n;k++) {
+						//wszystkieRozwiazania.get(i).add(populacja.Adaptation.adaptation[k]);
+						
+					}
+				
 				}
-				
-				
-				firstRun = false;
-				
-				//globalMaxes.WriteToFile(String.format("%g",Populacja.GLOBALMAX));
-			//}
 			
-//			Zapisywacz localMax = new Zapisywacz(String.format("localMax%d .txt",PopulacjaLength));
-//			Zapisywacz localAVG = new Zapisywacz(String.format("localAVG%d .txt",PopulacjaLength));
-//			double localMaxes[] =  calculateAVGLocal(AVGMAX);
-//			double localAVGS[] = calculateAVGLocal(AVGS);
-//			double globalMaxesArr[] = calculateAVGLocal(AVG_GLOBALMAX);
-//			
-//			for(int i = 0; i < localMaxes.length;i++) {
-//				localMax.WriteToFile(String.format("%g", localMaxes[i]));
-//				localAVG.WriteToFile(String.format("%g", localAVGS[i]));
-//				globalMaxes.WriteToFile(String.format("%g",globalMaxesArr[i]));
-//			}
-			System.out.println("THE BEST SOLUTION "+Populacja.GLOBALMIN);
+			System.out.println("THE BEST SOLUTION "+populacja.GLOBALMIN);
 			generacja  = 0;
+			adaptationNR = 0;
 		}
 		catch(CloneNotSupportedException e) {
 			e.printStackTrace();
@@ -155,18 +153,5 @@ public class Algorytm{
 		
 		return krzyzowaniePopulacja;
 	}
-	
-	
-	private double[] calculateAVGLocal(double[][]arr) {
-		double AVGLocalMIN [] = new double[times];
-		for(int i = 0; i < times;i++) {
-			AVGLocalMIN[i] = calculateAVG(arr[i]);
-		}
-		return AVGLocalMIN;
-	}
-	
-	private double calculateAVG(double[] arr) {
-		return Arrays.stream(arr).average().getAsDouble();
-	}
-	
+
 }

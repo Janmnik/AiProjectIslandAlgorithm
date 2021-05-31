@@ -4,51 +4,60 @@ import java.util.ArrayList;
 
 public class Wyspa implements Comparable<Wyspa>{
 	
-	static int calosc = 100;
+	static int calosc = WyspowyAlgorytm.calaPopulacja;
 	static int numerWysp = 1;
 	
 	int numerWyspy;
 	int podpopulacja;
-	
-	static double globalNajlepszeRozwiazanie = 0;
-	static int NumerNajlepszejWyspy = 0;
+	int powtorzenie;
 	
 	double najlepszeRozwiazanie;
-	Algorytm algorytm;
 	
-	public Wyspa(Algorytm _baza, double _env){
-		podpopulacja =  generujPopulacjeWysp(_baza.PopulacjaLength);
-		algorytm = new Algorytm(_baza.Ai,_baza.Bi,_baza.precision, _baza.n, podpopulacja,_env,_baza.MutacjaPropability,_baza.krzyzowaniePropability,_baza.times);
+	
+	static int env = 2000;
+	Algorytm algorytmBazowy;
+	Algorytm algorytmObecny;
+	
+	int licznikNiepowodzen = 0;
+	
+	ArrayList<Double> najlepszeRozwiazaniaLokalne= new ArrayList<Double>();
+	ArrayList<Double> wszystkieRozwiazania = new ArrayList<Double>();
+	
+	public Wyspa(Algorytm _baza){
+		podpopulacja =  generujPopulacjeWysp();
 		numerWyspy = numerWysp;
+		algorytmBazowy = new Algorytm(_baza.Ai,_baza.Bi,_baza.precision, _baza.n,  podpopulacja,env,_baza.MutacjaPropability,_baza.krzyzowaniePropability);
 		numerWysp++;
 	}
 	
-	
-	public void run() {
-		this.algorytm.run();
-		najlepszeRozwiazanie = this.algorytm.najlepszeRozwiazanie;
+	//do wyliczenia sredniej
+	private Algorytm stworzAlgorytm(Algorytm _baza) {
+		return new Algorytm(numerWyspy,_baza.Ai,_baza.Bi,_baza.precision, _baza.n, podpopulacja,env,_baza.MutacjaPropability,_baza.krzyzowaniePropability);
 	}
 	
-	public void ustawEnv(double _env) {
-		this.algorytm.env = _env;
+	public void run(double env) {
+		algorytmObecny = stworzAlgorytm(algorytmBazowy);
+		algorytmObecny.run(env);
+			
+		najlepszeRozwiazanie = algorytmObecny.najlepszeRozwiazanie;
+		this.najlepszeRozwiazaniaLokalne = algorytmObecny.najlepszeRozwiazaniaLokalne;
 	}
 	
 	public static void ustawPopulacje(int populacja) {
 		calosc = populacja;
 	}
 	
-	
 	public static ArrayList<Wyspa> generujWyspy(Algorytm algorytm){
 		
 		ArrayList<Wyspa> wyspy = new ArrayList<Wyspa>();
 		while(calosc > 0) {
-			wyspy.add(new Wyspa(algorytm,20));
+			wyspy.add(new Wyspa(algorytm));
 		}
 		
 		return wyspy;
 	}
 	
-	private static int generujPopulacjeWysp(int populacjaLength){
+	private static int generujPopulacjeWysp(){
 		
 		int wylosowanaPodpopulacja = getRandomNumber(1,calosc);
 			
@@ -61,12 +70,11 @@ public class Wyspa implements Comparable<Wyspa>{
 	    return (int)((Math.random() * (max - min)) + min);
 	}
 
-
 	@Override
 	public int compareTo(Wyspa w) {
-		if(this.podpopulacja > w.podpopulacja)
+		if(this.najlepszeRozwiazanie > w.najlepszeRozwiazanie)
 			return 1;
-		else if (this.podpopulacja < w.podpopulacja)
+		else if (this.najlepszeRozwiazanie < w.najlepszeRozwiazanie)
 			return -1;
 		else
 		return 0;

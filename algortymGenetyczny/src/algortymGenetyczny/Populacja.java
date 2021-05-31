@@ -16,9 +16,7 @@ public class Populacja {
 			this.Populacja = Populacja;
 			this.adaptation = adaptPopulacja(goal);
 			this.AVG = calcAVGAdaptation();
-			this.MIN = getMin(adaptation);
 		}
-		
 		
 			
 		private double [] adaptPopulacja(Rastrigin goal) {
@@ -93,7 +91,7 @@ public class Populacja {
 	Adaptation Adaptation;
 	Czlonek Populacja[];
 	Czlonek base;
-	static double GLOBALMIN = 0.0;
+	double GLOBALMIN = 0.0;
 
 	
 	public Populacja(Czlonek base,int n) {
