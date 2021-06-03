@@ -10,6 +10,7 @@ public class Populacja {
 		double adaptation [];
 		Rastrigin goal;
 		double AVG,MIN;
+		int adaptationNr = 0;
 		
 		Adaptation(Rastrigin goal, Czlonek[] Populacja){
 			this.goal = goal;
@@ -38,8 +39,10 @@ public class Populacja {
 			
 			this.MIN = getMin(adaptation);
 			
-			if(GLOBALMIN > MIN)
-				GLOBALMIN = MIN;
+			if(GLOBALMIN > this.MIN)
+				GLOBALMIN = this.MIN;
+			
+			this.adaptationNr += n;
 			
 			return adaptation;
 		}
@@ -91,7 +94,7 @@ public class Populacja {
 	Adaptation Adaptation;
 	Czlonek Populacja[];
 	Czlonek base;
-	double GLOBALMIN = 0.0;
+	double GLOBALMIN = 1000000.0;
 
 	
 	public Populacja(Czlonek base,int n) {
@@ -135,8 +138,9 @@ public class Populacja {
 	public Populacja setPopulacja(Czlonek[] _Populacja) {
 		Populacja populacja = new Populacja(this.base,this.n);
 		populacja.Populacja = _Populacja;
+		int adaptatioNr = this.Adaptation.adaptationNr;
 		populacja.adaptPopulacja(Adaptation.goal);
-		populacja.Adaptation.AVG = populacja.Adaptation.calcAVGAdaptation();
+		populacja.Adaptation.adaptationNr += adaptatioNr;
 		return populacja;
 	}
 	

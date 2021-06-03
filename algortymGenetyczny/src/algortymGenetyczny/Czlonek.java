@@ -80,7 +80,7 @@ public class Czlonek implements Cloneable {
 		return copy;
 	}
 	
-	public int getChromosomeLength() {
+	public int dajDlugoscChromosomu() {
 		return chromosome.length;
 	}
 	

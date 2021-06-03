@@ -24,6 +24,6 @@ public class Rastrigin implements Function<Double[], Double> {
         for (int i = 0; i < arr.length; i++) {
             sum += func(arr[i]);
         }
-        return - (amplitude * numberOfVariables + sum);
+        return (amplitude * numberOfVariables + sum);
     }
 }

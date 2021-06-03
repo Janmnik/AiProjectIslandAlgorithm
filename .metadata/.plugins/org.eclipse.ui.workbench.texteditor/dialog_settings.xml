@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="wyspa"/>
+		<item key="selection" value="krzyzowaniePrawdopodobienstwo"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="krzyzowaniePropability"/>
+			<item value="MutacjaPropability"/>
 			<item value="algorytm"/>
 			<item value="historiaWysp"/>
 			<item value="globalMaxes"/>
@@ -21,10 +23,10 @@
 			<item value="precision"/>
 			<item value="setChromosome"/>
 			<item value="ustal"/>
-			<item value="generateChromosome"/>
-			<item value="checkChromosome"/>
 		</list>
 		<list key="replacehistory">
+			<item value="krzyzowaniePrawdopodobienstwo"/>
+			<item value="mutacjaPrawdopodobienstwo"/>
 			<item value="wyspa"/>
 			<item value="MIN"/>
 			<item value="dziecko"/>
@@ -38,13 +40,11 @@
 			<item value="baza"/>
 			<item value="nowa"/>
 			<item value="przeskalowane"/>
-			<item value="Czlonki"/>
-			<item value="Populacja"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="1090"/>
-		<item key="DIALOG_Y_ORIGIN" value="183"/>
+		<item key="DIALOG_X_ORIGIN" value="437"/>
+		<item key="DIALOG_Y_ORIGIN" value="129"/>
 		<item key="DIALOG_WIDTH" value="284"/>
 		<item key="DIALOG_HEIGHT" value="387"/>
 		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>

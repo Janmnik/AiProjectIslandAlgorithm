@@ -8,11 +8,11 @@ public class Krzyzowanie2Punkt {
 		chromosomeLength = _chromosomeLength;
 		punktKrzyz1 = getRandomNumber(0,chromosomeLength);
 		punktKrzyz2 =  getRandomNumber(0,chromosomeLength);
-		checkpunktKrzyzs();
+		sprawdzPunktyKrzyzowania();
 		
 	}
 	
-	protected Czlonek getdziecko(Czlonek parentX, Czlonek parentY) {
+	protected Czlonek dajDziecko(Czlonek parentX, Czlonek parentY) {
 		char [] dzieckoChromosome = new char[chromosomeLength];
 		//pierwsza czesc z rodzica X
 		for(int i = 0; i < punktKrzyz1;i++) {
@@ -33,7 +33,7 @@ public class Krzyzowanie2Punkt {
 	}
 	
 	//sprawdzam czy punkt 1 krzyzowania jest < niz punkt 2 krzyzowania ; jesli nie to zamieniam je 
-	private void checkpunktKrzyzs() {
+	private void sprawdzPunktyKrzyzowania() {
 		if(punktKrzyz1 > punktKrzyz2) {
 			int point = punktKrzyz1;
 			punktKrzyz1 = punktKrzyz2;

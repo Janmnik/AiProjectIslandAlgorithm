@@ -2,9 +2,6 @@ package algortymGenetyczny;
 
 public class Turniej {
 	
-	
-	
-	
 	Populacja bazaPopulacja;
 	
 	public Turniej(Populacja bazaPopulacja) {
@@ -23,9 +20,9 @@ public class Turniej {
 		Czlonek tablicaOsob[]= new Czlonek[length];
 		 
 		for(int i=0;i<length;i++) {
-			
-			tablicaOsob[i]=bazaPopulacja.Populacja[los1];
 			los1=(int)(Math.random()*(length));
+			tablicaOsob[i]=bazaPopulacja.Adaptation.Populacja[los1];
+			
 		}
 			Populacja nowaPopulacja = bazaPopulacja.setPopulacja(tablicaOsob);
 
