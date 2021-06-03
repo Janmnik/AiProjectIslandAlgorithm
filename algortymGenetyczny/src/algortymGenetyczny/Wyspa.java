@@ -8,11 +8,9 @@ public class Wyspa implements Comparable<Wyspa>{
 	
 	int numerWyspy;
 	int podpopulacja;
-	
 	static int wskaznikEwaulacji= 0;
 	double najlepszeRozwiazanie;
-	
-	Algorytm algorytmBazowy;
+
 	Algorytm algorytmObecny;
 	
 	static double najlepszaWartoscGlobalna = 1000000;
@@ -28,16 +26,12 @@ public class Wyspa implements Comparable<Wyspa>{
 	public Wyspa(Algorytm _baza){
 		podpopulacja =  populacje[index];
 		numerWyspy = numerWysp;
-		algorytmBazowy = new Algorytm(_baza.Ai,_baza.Bi,_baza.precision, _baza.n,  podpopulacja,_baza.mutacjaPrawdopodobienstwo,_baza.krzyzowaniePrawdopodobienstwo);
-		algorytmObecny = stworzAlgorytm(algorytmBazowy);
+		algorytmObecny = new Algorytm(_baza.Ai,_baza.Bi,_baza.precision, _baza.n,  podpopulacja,_baza.mutacjaPrawdopodobienstwo,_baza.krzyzowaniePrawdopodobienstwo);
 		numerWysp++;
 		index++;
 	}
 	
-	//do wyliczenia sredniej
-	private Algorytm stworzAlgorytm(Algorytm _baza) {
-		return new Algorytm(numerWyspy,_baza.Ai,_baza.Bi,_baza.precision, _baza.n, podpopulacja,_baza.mutacjaPrawdopodobienstwo,_baza.krzyzowaniePrawdopodobienstwo);
-	}
+	
 	
 	public static void wyzeruj() {
 		Wyspa.index = 0;
@@ -52,15 +46,10 @@ public class Wyspa implements Comparable<Wyspa>{
 		najlepszeRozwiazanie = algorytmObecny.najlepszeRozwiazanie;
 		Wyspa.wskaznikEwaulacji += algorytmObecny.wskaznikEwaulacji;
 		
-		if(Wyspa.najlepszaWartoscGlobalna > this.algorytmObecny.najlepszeRozwiazanie) {
-			Wyspa.najlepszaWartoscGlobalna = this.algorytmObecny.najlepszeRozwiazanie;
-			Wyspa.najlepszaWyspaGlobalnaNumer = this.numerWyspy;
-			wielkoscPopulacjiWyspGlobalnaNajlepsza = this.podpopulacja;
-		}
 	}
 	
 	public static ArrayList<Wyspa> generujWyspy(){
-		Algorytm algorytm = new Algorytm( -5.12, 5.12, 1000d, 10, Wyspa.populacje[Wyspa.numerWysp-1], 0.08, 0.6);
+		Algorytm algorytm = new Algorytm( -5.12, 5.12, 1000d, 30, Wyspa.populacje[Wyspa.numerWysp-1], 0.08, 0.6);
 		ArrayList<Wyspa> wyspy = new ArrayList<Wyspa>();
 		for(int i = 0 ; i < Wyspa.populacje.length;i++) {
 			wyspy.add(new Wyspa(algorytm));

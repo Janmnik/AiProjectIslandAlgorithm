@@ -1,44 +1,74 @@
 package algortymGenetyczny;
-import java.util.Arrays;
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Krzyzowanie8Punkt {
 	
 	int dlugoscChromosomu;
-	int [] punktyKrzyzowania = new int[8];
+	ArrayList<Integer> punktyKrzyzowania = new ArrayList<Integer>();
 	
 	public Krzyzowanie8Punkt(int _dlugoscChromosomu) {
 		dlugoscChromosomu = _dlugoscChromosomu;
-		punktyKrzyzowania = Krzyzowanie8Punkt.losujPunkty(_dlugoscChromosomu);
-		Arrays.sort(punktyKrzyzowania);
+		punktyKrzyzowania = losujPunkty(8);
+	
 	}
 	
-	private static  int [] losujPunkty(int dlugosc) {
-		Stack<Integer> wylosowaneJuzPunkty = new Stack<Integer>();
-		int [] wylosowanePunkty = new int[8];
-		int wylosowanyPunkt = 0;
-		for(int i = 0; i < 8; i++) {
-			wylosowanyPunkt = Krzyzowanie8Punkt.losujPunkt(0,dlugosc);
-			while(wylosowaneJuzPunkty.contains(wylosowanyPunkt)) {
-				wylosowanyPunkt = Krzyzowanie8Punkt.losujPunkt(0,dlugosc);
-			}
-			wylosowanePunkty[i] = wylosowanyPunkt;
-		}
-		return wylosowanePunkty;
+	private ArrayList<Integer> losujPunkty(int dlugosc) {
+		 ArrayList<Integer> numbers = new ArrayList<Integer>();   
+		    Random randomGenerator = new Random();
+		    while (numbers.size() < dlugosc){
+		      int random = losujPunkt(1,dlugoscChromosomu);
+		      if (!numbers.contains(random)) {
+		        numbers.add(random);
+		      }
+		    }
+		
+		numbers.sort(null);    
+		return numbers;
 	}
 	
-//	public Czlonek dajDziecko(Czlonek rodzicX, Czlonek rodzicY) {
-//		
-//		char [] dzieckoChromosome = new char[dlugoscChromosomu];
-//		for(int i = 1; i < punktyKrzyzowania.length;i++) {
-//			int punkt1 = punktyKrzyzowania[i-1];
-//			int punkt2 = punktyKrzyzowania[i];
-//			
-//			for(int j = punkt1; j < punkt2; j++) {
-//				dzieckoChromosome[j] = rodzicX.chromosome[j];
-//			}
-//		}
-//	}
+	public Czlonek dajDziecko(Czlonek rodzicX, Czlonek rodzicY) {
+		
+		char [] dzieckoChromosom = new char[dlugoscChromosomu];
+		int in = 0;
+	    int kolej = 0;
+	    //powtorz tyle razy ile jest punktow krzyzownia
+	    for(int i = 0; i < punktyKrzyzowania.size();i++){
+	      //wez punkt krzyzowania
+	      int punkt = punktyKrzyzowania.get(i);
+	      //dopoki nie dojdziesz do punktu krzyzowania
+	      do {
+	        //czesc rodzica 1
+	        if(kolej % 2 == 0){
+	        	dzieckoChromosom[in] = rodzicX.chromosome[in];
+	        }
+	        //czesc rodzica 2
+	        else{
+	        	dzieckoChromosom[in] = rodzicY.chromosome[in];
+	        }
+
+	        in++;
+	       
+	      }while(in < punkt);
+	      kolej++;
+	    }
+	   
+	    //dla reszty: od punktu ostatniego do konca
+	    while(in < rodzicX.chromosome.length){
+	      //czesc rodzica 1
+	        if(kolej % 2 == 0){
+	        	dzieckoChromosom[in] = rodzicX.chromosome[in];
+	        }
+	        //czesc rodzica 2
+	        else{
+	        	dzieckoChromosom[in] = rodzicY.chromosome[in];
+	        }
+	        in++;
+	    }
+	    Czlonek dziecko = new Czlonek(rodzicX.getStart(),rodzicX.getEnd(),rodzicX.n,rodzicX.precyzja);
+		dziecko.chromosome = dzieckoChromosom;
+		return dziecko;
+	}
 	
 	
 	private static int losujPunkt(int max, int min) {

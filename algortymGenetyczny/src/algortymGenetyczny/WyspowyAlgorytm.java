@@ -77,10 +77,10 @@ public class WyspowyAlgorytm {
      * */
     //co 100 ew probkowanie
     int ewaulacje = 0;
-    int env = 2100;
+    int env = 2000;
     int maxNiepowodzen = 5;
 
-    int maxEwaulacji = 300000;
+    int maxEwaulacji = 100000;
  
     try { 
     	  
@@ -91,7 +91,7 @@ public class WyspowyAlgorytm {
           for (Wyspa wyspa: wyspy) {
             System.out.println("========== WYSPA " + wyspa.numerWyspy + " populacja:" + wyspa.podpopulacja + "==============");
             wyspa.run(env);
-            System.out.println("Liczb niepowodzen" + wyspa.licznikNiepowodzen);
+            System.out.println("Liczb niepowodzen" + wyspa.licznikNiepowodzen+"ewaluacje:"+wyspa.algorytmObecny.populacja.Adaptation.adaptationNr);
             
             ewaulacje += wyspa.algorytmObecny.wskaznikEwaulacji;
           }

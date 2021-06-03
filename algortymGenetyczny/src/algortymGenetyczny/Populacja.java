@@ -17,6 +17,8 @@ public class Populacja {
 			this.Populacja = Populacja;
 			this.adaptation = adaptPopulacja(goal);
 			this.AVG = calcAVGAdaptation();
+			
+			this.adaptationNr += n;
 		}
 		
 			
@@ -27,23 +29,26 @@ public class Populacja {
 			
 			Double wartoscChromosom [][] = new Double[n][Populacja[0].n];
 			for(int i=0;i<n;i++) {
-				for(int k=0;k<Populacja[i].n;k++) {
-					wartoscChromosom[i][k]=Populacja[i].decoding(k+1);
+				if(adaptationNr <= 2100) {
+					for(int k=0;k<Populacja[i].n;k++) {
+						wartoscChromosom[i][k]=Populacja[i].decoding(k+1);
+					}
 				}
+				
 			}
 			
 			for(int i = 0; i<n;i++) {
 				
 				adaptation[i] = goal.apply(wartoscChromosom[i]);
+				if(adaptationNr >= 2100)
+					break;
 			}
 			
 			this.MIN = getMin(adaptation);
 			
 			if(GLOBALMIN > this.MIN)
 				GLOBALMIN = this.MIN;
-			
-			this.adaptationNr += n;
-			
+				
 			return adaptation;
 		}
 		public Czlonek PopulacjaMinCzlonek() {

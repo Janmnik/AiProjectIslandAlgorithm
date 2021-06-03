@@ -10,7 +10,6 @@ public class Turniej {
 	}
 	private Populacja wylosowanie() {
 		
-	
 		int length = bazaPopulacja.n;
 		/*  wylosowanie dwóch osobników  */
 		int los1=(int) (Math.random()*(length - 0) + 0);
@@ -21,8 +20,7 @@ public class Turniej {
 		 
 		for(int i=0;i<length;i++) {
 			los1=(int)(Math.random()*(length));
-			tablicaOsob[i]=bazaPopulacja.Adaptation.Populacja[los1];
-			
+			tablicaOsob[i]=bazaPopulacja.Populacja[los1];	
 		}
 			Populacja nowaPopulacja = bazaPopulacja.setPopulacja(tablicaOsob);
 

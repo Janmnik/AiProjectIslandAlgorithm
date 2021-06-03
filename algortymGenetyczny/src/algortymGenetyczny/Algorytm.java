@@ -15,7 +15,6 @@ public class Algorytm{
 	public double najlepszeRozwiazanie;
 	
 	public Populacja populacja;
-	int adaptationNR = 0;
 	public int wskaznikEwaulacji = 0;
 	int nrWyspy;
 	
@@ -49,28 +48,19 @@ public class Algorytm{
 		//funkcja celu:
 
 		Rastrigin goal = new Rastrigin(10, n);
-
-		//1 krok inicjalizacja poczatkowej populacji chromosomow
-		//2 krok ocena przystosowania chromosomow w populacji
-		//3 krok: selekcja choromosomow: ruletka
-		//4 krok: zastpspwanie operatorow genetycznych
-		//	mutowanie
-		//	krzyzowanie
-		//5 krok: stworzenie nowej popualcji
 		
 		try {
-			
-			//pomiary:
-			// - najlepsze globalne rozwiazania
-			// - najlepsze lokalne rozwiazania
-			// - wartosci przystosowania dla kazdej wartosci ewaulacji
-			// - srednie wartosci f przystosowania dla kazdej wartosci 	
-			
-			//ArrayList <Double> wszystkieRozwiazania = new ArrayList <Double>();
 			
 				//krok 1 & 2
 				populacja.adaptPopulacja(goal);	
 				while(populacja.Adaptation.adaptationNr < env) {
+					
+
+					if(Wyspa.najlepszaWartoscGlobalna > this.populacja.GLOBALMIN) {
+						Wyspa.najlepszaWartoscGlobalna = this.populacja.GLOBALMIN;
+						Wyspa.najlepszaWyspaGlobalnaNumer = this.nrWyspy;
+						Wyspa.wielkoscPopulacjiWyspGlobalnaNajlepsza = this.populacja.n;
+					}
 					
 					for(int i = 0; i < populacja.n;i++) {
 						String pomiar = ""+populacja.Adaptation.adaptation[i]; 
@@ -78,16 +68,14 @@ public class Algorytm{
 					}
 					
 					//krok 3
-					if(populacja.Adaptation.adaptationNr % 100 == 0) {
-						String pomiarNajlepszejGlobalnej = "Nr: "+ Wyspa.najlepszaWyspaGlobalnaNumer+";Populacja:"+Wyspa.wielkoscPopulacjiWyspGlobalnaNajlepsza+";+;Wartosc:"+Wyspa.najlepszaWartoscGlobalna;
-						String pomiarNajlepszejLokalnej = "Nr:"+nrWyspy+";Populacja:"+populacja.n+";Wartosc:"+populacja.Adaptation.MIN;
-						zapiszNajlepszeGlobalneRozwiazania(pomiarNajlepszejGlobalnej);
-						zapiszNajlepszeLokalneRozwiazania(pomiarNajlepszejLokalnej,populacja.n);
-					}
+//					if(populacja.Adaptation.adaptationNr % 1000 == 0) {
+//						String pomiarNajlepszejGlobalnej = "Nr: "+ Wyspa.najlepszaWyspaGlobalnaNumer+";Populacja:"+Wyspa.wielkoscPopulacjiWyspGlobalnaNajlepsza+";+;Wartosc:"+Wyspa.najlepszaWartoscGlobalna;
+//						String pomiarNajlepszejLokalnej = "Nr:"+nrWyspy+";Populacja:"+populacja.n+";Wartosc:"+populacja.Adaptation.MIN;
+//						zapiszNajlepszeGlobalneRozwiazania(pomiarNajlepszejGlobalnej);
+//						zapiszNajlepszeLokalneRozwiazania(pomiarNajlepszejLokalnej,populacja.n);
+//					}
 					populacja = new Turniej(populacja).PopulacjaNajlepszaWygrana();
 					najlepszeRozwiazanie = populacja.GLOBALMIN;
-					
-					System.out.println(populacja.Adaptation.MIN);
 					
 					//krok 4 & 5
 					populacja = krzyzowanieChromosomow(populacja);
@@ -101,6 +89,7 @@ public class Algorytm{
 			System.out.println("THE BEST SOLUTION "+populacja.GLOBALMIN);
 			generacja  = 0;
 			wskaznikEwaulacji = populacja.Adaptation.adaptationNr;
+			
 			
 		}
 		catch(CloneNotSupportedException e) {
@@ -131,18 +120,35 @@ public class Algorytm{
 		double prawdopodobienstwoWylosowane = 0.0;
 		
 		Czlonek rodzicX, rodzicY;
+		
+		if(krzyzowaniePopulacja.Populacja[0].n > 20) {
+			for(int i = 0;i<length;i++) {
+				prawdopodobienstwoWylosowane = Math.random();
+				if(prawdopodobienstwoWylosowane<=krzyzowaniePrawdopodobienstwo) {
+					losowyChromosom = (int)(Math.random()*length);
+					Krzyzowanie8Punkt krzyzowanie8Punkt = new Krzyzowanie8Punkt(dlugoscChromosomu);
+					
+					rodzicX = (Czlonek) krzyzowaniePopulacja.Populacja[i].clone();
+					rodzicY = (Czlonek) krzyzowaniePopulacja.Populacja[losowyChromosom].clone();
+					krzyzowaniePopulacja.Populacja[i] = krzyzowanie8Punkt.dajDziecko(rodzicX, rodzicY);
+					krzyzowaniePopulacja.Populacja[losowyChromosom] = krzyzowanie8Punkt.dajDziecko(rodzicY, rodzicX);
+				}
+			}
+		}
+		else {
+		
 		for(int i = 0;i<length;i++) {
 			prawdopodobienstwoWylosowane = Math.random();
 			if(prawdopodobienstwoWylosowane<=krzyzowaniePrawdopodobienstwo) {
 				losowyChromosom = (int)(Math.random()*length);
 				Krzyzowanie2Punkt krzyzowanie2Punkt = new Krzyzowanie2Punkt(dlugoscChromosomu);
 				rodzicX = (Czlonek) krzyzowaniePopulacja.Populacja[i].clone();
-				rodzicY = (Czlonek) krzyzowaniePopulacja.Adaptation. Populacja[losowyChromosom].clone();
+				rodzicY = (Czlonek) krzyzowaniePopulacja.Populacja[losowyChromosom].clone();
 				krzyzowaniePopulacja.Populacja[i] = krzyzowanie2Punkt.dajDziecko(rodzicX, rodzicY);
 				krzyzowaniePopulacja.Populacja[losowyChromosom] = krzyzowanie2Punkt.dajDziecko(rodzicY, rodzicX);
 			}
+		  }
 		}
-		
 		return krzyzowaniePopulacja;
 	}
 	
