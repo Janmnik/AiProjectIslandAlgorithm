@@ -21,17 +21,15 @@ public class Wyspa implements Comparable<Wyspa>{
 	
 	int licznikNiepowodzen = 0;
 	
-	ArrayList<Double> najlepszeRozwiazaniaLokalne= new ArrayList<Double>();
-	ArrayList<Double> wszystkieRozwiazania = new ArrayList<Double>();
 	
 	private static int index = 0;
-	static int populacje [] = new int [] {10,20,50,100,200,300,400,500,500,600,1000,1500,2000};
+	static int populacje [] = new int [] {10,20,50,100,200,300,400,500,600,1000,1500,2000};
 	
 	public Wyspa(Algorytm _baza){
 		podpopulacja =  populacje[index];
-		System.out.println(podpopulacja);
 		numerWyspy = numerWysp;
 		algorytmBazowy = new Algorytm(_baza.Ai,_baza.Bi,_baza.precision, _baza.n,  podpopulacja,_baza.mutacjaPrawdopodobienstwo,_baza.krzyzowaniePrawdopodobienstwo);
+		algorytmObecny = stworzAlgorytm(algorytmBazowy);
 		numerWysp++;
 		index++;
 	}
@@ -48,11 +46,10 @@ public class Wyspa implements Comparable<Wyspa>{
 	}
 	
 	public void run(double env) {
-		algorytmObecny = stworzAlgorytm(algorytmBazowy);
+		
 		algorytmObecny.run(env);
 			
 		najlepszeRozwiazanie = algorytmObecny.najlepszeRozwiazanie;
-		this.najlepszeRozwiazaniaLokalne = algorytmObecny.najlepszeRozwiazaniaLokalne;
 		Wyspa.wskaznikEwaulacji += algorytmObecny.wskaznikEwaulacji;
 		
 		if(Wyspa.najlepszaWartoscGlobalna > this.algorytmObecny.najlepszeRozwiazanie) {
@@ -63,16 +60,12 @@ public class Wyspa implements Comparable<Wyspa>{
 	}
 	
 	public static ArrayList<Wyspa> generujWyspy(){
-		Algorytm algorytm = new Algorytm( -5.12, 5.12, 1000d, 50, Wyspa.populacje[Wyspa.numerWysp-1], 0.02, 0.6);
+		Algorytm algorytm = new Algorytm( -5.12, 5.12, 1000d, 10, Wyspa.populacje[Wyspa.numerWysp-1], 0.08, 0.6);
 		ArrayList<Wyspa> wyspy = new ArrayList<Wyspa>();
 		for(int i = 0 ; i < Wyspa.populacje.length;i++) {
 			wyspy.add(new Wyspa(algorytm));
 		}
 		return wyspy;
-	}
-	
-	private static int getRandomNumber(int min, int max) {
-	    return (int)((Math.random() * (max - min)) + min);
 	}
 
 	@Override

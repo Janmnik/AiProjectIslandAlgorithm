@@ -13,8 +13,6 @@ public class Algorytm{
 	public int generacja;
 	
 	public double najlepszeRozwiazanie;
-	public ArrayList <Double> najlepszeRozwiazaniaLokalne = new ArrayList <Double>();//najlepsze rozwiazania lokanlne probkowanie co 2k
-	public ArrayList <Double> wszystkieRozwiazania = new ArrayList <Double>();
 	
 	public Populacja populacja;
 	int adaptationNR = 0;
@@ -73,24 +71,27 @@ public class Algorytm{
 				//krok 1 & 2
 				populacja.adaptPopulacja(goal);	
 				while(populacja.Adaptation.adaptationNr < env) {
-
+					
+					for(int i = 0; i < populacja.n;i++) {
+						String pomiar = ""+populacja.Adaptation.adaptation[i]; 
+						zapiszRozwiazania(pomiar,populacja.n);
+					}
+					
 					//krok 3
-					populacja = new Turniej(populacja).PopulacjaNajlepszaWygrana();
-					najlepszeRozwiazanie = populacja.Adaptation.MIN;
-					if(adaptationNR % 100 == 0) {
+					if(populacja.Adaptation.adaptationNr % 100 == 0) {
 						String pomiarNajlepszejGlobalnej = "Nr: "+ Wyspa.najlepszaWyspaGlobalnaNumer+";Populacja:"+Wyspa.wielkoscPopulacjiWyspGlobalnaNajlepsza+";+;Wartosc:"+Wyspa.najlepszaWartoscGlobalna;
 						String pomiarNajlepszejLokalnej = "Nr:"+nrWyspy+";Populacja:"+populacja.n+";Wartosc:"+populacja.Adaptation.MIN;
 						zapiszNajlepszeGlobalneRozwiazania(pomiarNajlepszejGlobalnej);
 						zapiszNajlepszeLokalneRozwiazania(pomiarNajlepszejLokalnej,populacja.n);
 					}
+					populacja = new Turniej(populacja).PopulacjaNajlepszaWygrana();
+					najlepszeRozwiazanie = populacja.GLOBALMIN;
+					
 					System.out.println(populacja.Adaptation.MIN);
-					najlepszeRozwiazaniaLokalne.add(populacja.Adaptation.MIN);
+					
 					//krok 4 & 5
 					populacja = krzyzowanieChromosomow(populacja);
 					populacja = mutujPopulacje(populacja);
-					
-					
-					//System.out.println("GENERACJA "+generacja);
 					
 					generacja++;
 					
@@ -151,12 +152,21 @@ public class Algorytm{
 		 zapisywaczNajlepszychGlobalnie.WriteToFile(pomiar);
 		 zapisywaczNajlepszychGlobalnie.zamknij();
 	}
+	
 	private static void zapiszNajlepszeLokalneRozwiazania(String pomiar,int populacja) {
 		  
 		  Zapisywacz zapisywaczNajlepszychLokalnie = new Zapisywacz("najlepszeLokalneWyspy"+populacja+"."+".txt");
 		  zapisywaczNajlepszychLokalnie.WriteToFile(pomiar);
 		 
 		  zapisywaczNajlepszychLokalnie.zamknij();
-	  }
+	}
+	
+	private static void zapiszRozwiazania(String pomiar,int populacja) {
+		  
+		  Zapisywacz zapisywaczNajlepszychLokalnie = new Zapisywacz("wszystkieRozwiazania"+populacja+"."+".txt");
+		  zapisywaczNajlepszychLokalnie.WriteToFile(pomiar);
+		 
+		  zapisywaczNajlepszychLokalnie.zamknij();
+	}
 
 }

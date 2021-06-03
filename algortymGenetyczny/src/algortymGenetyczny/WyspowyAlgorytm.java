@@ -52,11 +52,6 @@ public class WyspowyAlgorytm {
     return wyspy.get(0).podpopulacja;
   }
 
-//  public static void main(String[] args) {
-//	  Algorytm algorytm = new Algorytm( -5.12, 5.12, 1000d, 100, 20, 0.02, 0.6);
-//	  algorytm.run(10000);
-//	  System.out.print(algorytm.najlepszeRozwiazanie);
-//  }
   public static void main(String[] args) throws CloneNotSupportedException {
 
     //Krok 1: stworz wyspy
@@ -82,10 +77,10 @@ public class WyspowyAlgorytm {
      * */
     //co 100 ew probkowanie
     int ewaulacje = 0;
-    int env = 2000;
-    int maxNiepowodzen = 7;
+    int env = 2100;
+    int maxNiepowodzen = 5;
 
-    int maxEwaulacji = 50000;
+    int maxEwaulacji = 300000;
  
     try { 
     	  
