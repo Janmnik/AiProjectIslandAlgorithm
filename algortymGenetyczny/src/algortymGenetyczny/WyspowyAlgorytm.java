@@ -116,7 +116,7 @@ public class WyspowyAlgorytm {
         System.out.println("wyspa " + wyspa.numerWyspy + " " + wyspa.najlepszeRozwiazanie);
         
         //pomiar najlepszych globalnych rozwiazan
-        
+        System.out.println("Globalna wyspa"+Wyspa.wielkoscPopulacjiWyspGlobalnaNajlepsza+", "+Wyspa.najlepszaWartoscGlobalna);
        
         
       } catch(IndexOutOfBoundsException e) {

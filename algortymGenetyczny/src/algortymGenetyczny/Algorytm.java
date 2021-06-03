@@ -55,11 +55,17 @@ public class Algorytm{
 				populacja.adaptPopulacja(goal);	
 				while(populacja.Adaptation.adaptationNr < env) {
 					
-
 					if(Wyspa.najlepszaWartoscGlobalna > this.populacja.GLOBALMIN) {
 						Wyspa.najlepszaWartoscGlobalna = this.populacja.GLOBALMIN;
 						Wyspa.najlepszaWyspaGlobalnaNumer = this.nrWyspy;
 						Wyspa.wielkoscPopulacjiWyspGlobalnaNajlepsza = this.populacja.n;
+					}
+					
+					if(populacja.Adaptation.adaptationNr % 1000 == 0) {
+						String pomiarNajlepszejGlobalnej = "Nr: "+ Wyspa.najlepszaWyspaGlobalnaNumer+";Populacja:"+Wyspa.wielkoscPopulacjiWyspGlobalnaNajlepsza+";+;Wartosc:"+Wyspa.najlepszaWartoscGlobalna;
+						String pomiarNajlepszejLokalnej = "Nr:"+nrWyspy+";Populacja:"+populacja.n+";Wartosc:"+populacja.Adaptation.MIN;
+						zapiszNajlepszeGlobalneRozwiazania(pomiarNajlepszejGlobalnej);
+						zapiszNajlepszeLokalneRozwiazania(pomiarNajlepszejLokalnej,populacja.n);
 					}
 					
 					for(int i = 0; i < populacja.n;i++) {
@@ -68,12 +74,7 @@ public class Algorytm{
 					}
 					
 					//krok 3
-//					if(populacja.Adaptation.adaptationNr % 1000 == 0) {
-//						String pomiarNajlepszejGlobalnej = "Nr: "+ Wyspa.najlepszaWyspaGlobalnaNumer+";Populacja:"+Wyspa.wielkoscPopulacjiWyspGlobalnaNajlepsza+";+;Wartosc:"+Wyspa.najlepszaWartoscGlobalna;
-//						String pomiarNajlepszejLokalnej = "Nr:"+nrWyspy+";Populacja:"+populacja.n+";Wartosc:"+populacja.Adaptation.MIN;
-//						zapiszNajlepszeGlobalneRozwiazania(pomiarNajlepszejGlobalnej);
-//						zapiszNajlepszeLokalneRozwiazania(pomiarNajlepszejLokalnej,populacja.n);
-//					}
+
 					populacja = new Turniej(populacja).PopulacjaNajlepszaWygrana();
 					najlepszeRozwiazanie = populacja.GLOBALMIN;
 					
