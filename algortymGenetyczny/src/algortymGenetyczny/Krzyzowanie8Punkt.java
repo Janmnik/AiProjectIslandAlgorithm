@@ -22,7 +22,6 @@ public class Krzyzowanie8Punkt {
 		        numbers.add(random);
 		      }
 		    }
-		
 		numbers.sort(null);    
 		return numbers;
 	}
@@ -53,7 +52,6 @@ public class Krzyzowanie8Punkt {
 	      }while(in < punkt);
 	      kolej++;
 	    }
-	   
 	    //dla reszty: od punktu ostatniego do konca
 	    while(in < rodzicX.length){
 	      //czesc rodzica 1

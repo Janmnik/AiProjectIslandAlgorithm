@@ -45,6 +45,7 @@ public class Wyspa implements Comparable<Wyspa>{
 			
 		najlepszeRozwiazanie = algorytmObecny.najlepszeRozwiazanie;
 		Wyspa.wskaznikEwaulacji += algorytmObecny.wskaznikEwaulacji;
+		System.out.println("Wskaznik"+Wyspa.wskaznikEwaulacji);
 		
 	}
 

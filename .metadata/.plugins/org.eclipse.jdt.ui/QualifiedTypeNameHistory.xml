@@ -3,7 +3,9 @@
     <fullyQualifiedTypeName name="java.util.Comparator"/>
     <fullyQualifiedTypeName name="java.util.Arrays"/>
     <fullyQualifiedTypeName name="java.util.Collections"/>
-    <fullyQualifiedTypeName name="algortymGenetyczny.Algorytm"/>
     <fullyQualifiedTypeName name="algortymGenetyczny.Wyspa"/>
+    <fullyQualifiedTypeName name="algortymGenetyczny.Czlonek"/>
+    <fullyQualifiedTypeName name="algortymGenetyczny.Algorytm"/>
     <fullyQualifiedTypeName name="java.lang.System"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>

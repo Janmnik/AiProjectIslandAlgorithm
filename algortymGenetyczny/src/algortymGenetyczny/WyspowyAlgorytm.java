@@ -56,7 +56,8 @@ public class WyspowyAlgorytm {
         return wyspy.get(0).podpopulacja;
     }
 
-    public static void main(String[] args) throws CloneNotSupportedException {
+
+ public static void main(String[] args) {
 
         //Krok 1: stworz wyspy
         //Krok 2: wykonaj adaptajce populacji na wyspach
@@ -84,9 +85,9 @@ public class WyspowyAlgorytm {
     	zapisywaczGlobalnych.WriteToFile("Populacja;ewaulacja;wartosc");
     	
         int env = 2000;
-        int maxNiepowodzen = 5;
+        int maxNiepowodzen = 3;
         
-        int maxEwaulacji = 4000;//100000;
+        int maxEwaulacji = 500000;
 
         //tworzenie wysp
         ArrayList < Wyspa > wyspy = new ArrayList < Wyspa > ();
@@ -108,7 +109,6 @@ public class WyspowyAlgorytm {
                         System.out.println(wyspy.get(i).najlepszeRozwiazanie);
                     }
                     
-                    
                     for(int i = 0; i < wyspy.size();i++) {
                     	if(najlepszaWyspaRozwiazanie >= wyspy.get(i).najlepszeRozwiazanie){
                     		najlepszaWyspaRozwiazanie = wyspy.get(i).najlepszeRozwiazanie;
@@ -118,9 +118,8 @@ public class WyspowyAlgorytm {
                     
                     //probkowanie najlepszego globalnego co 2k
                     	System.out.println("zapisz");
-                    	String pomiar = ""+najlepszaWyspaPopulacja+";"+Wyspa.wskaznikEwaulacji+";"+najlepszaWyspaRozwiazanie;
+                    	String pomiar = najlepszaWyspaPopulacja+";"+Wyspa.wskaznikEwaulacji+";"+najlepszaWyspaRozwiazanie+";";
                     	zapisywaczGlobalnych.WriteToFile(pomiar);
-                    
                     
                     Wyspa wyspaNiepowodzenia = dajWyspeNiepowodzenia(wyspy);
 
@@ -148,10 +147,10 @@ public class WyspowyAlgorytm {
         
         System.out.println(Wyspa.wskaznikEwaulacji);
         System.out.println("Wyspa:"+najlepszaWyspaPopulacja+":"+najlepszaWyspaRozwiazanie);
-        Wyspa.wyzeruj();
+        
 
     }
-
+ 
 
     public static void zapiszWszysktieWartosciFunkcji(Wyspa wyspa, int powtorzenie) {
         Zapisywacz zapisywaczWszystkich = new Zapisywacz("wszystkieWartosciWyspy" + "." + powtorzenie + "." + wyspa.numerWyspy + "." + wyspa.podpopulacja + ".txt");

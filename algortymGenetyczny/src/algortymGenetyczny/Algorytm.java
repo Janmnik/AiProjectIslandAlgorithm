@@ -5,7 +5,7 @@ public class Algorytm {
     public static double Ai = -5.12;
     public static double Bi = 5.12;
     static double precyzja = 1000;
-    public int liczbaGenow = 50;
+    public int liczbaGenow = 10;
     public double mutacjaPrawdopodobienstwo = 0.04;
     public double krzyzowaniePrawdopodobienstwo = 0.6;
     
@@ -32,7 +32,8 @@ public class Algorytm {
         wielkoscPopulacji = _PopulacjaLength;
         liczbaGenow = _n;
         //krok 1 tworzymy populacje bazowa
-        this.populacja = stworzPopulacje();
+        populacja = stworzPopulacje();
+        System.out.println("konstruktor");
     }
 
     
@@ -64,9 +65,9 @@ public class Algorytm {
     	}
     }
     
-    public void run(double env) {
- 
-        while (wskaznikEwaulacji < 2000) {
+    public Czlonek[] run(double env) {
+        wskaznikEwaulacji = 0;
+        while (wskaznikEwaulacji <= env) {
         	for(int i = 0; i < wielkoscPopulacji; i++) {
         		populacja[i].wartoscDlaFunkcji = populacja[i].obliczWartoscFunkcji();
         		wskaznikEwaulacji++;
@@ -76,7 +77,7 @@ public class Algorytm {
         	Turniej turniej = new Turniej(populacja);
         	najlepszy = znajdzNajlepszegoObecnie(populacja);
         	najlepszeRozwiazanie = najlepszy.wartoscDlaFunkcji;
-        	zmienPopulacje(turniej.calyTurniej());
+        	populacja = turniej.calyTurniej();
         	populacja[0] = najlepszy;
         	
         	//dokonanie mutacji:
@@ -91,10 +92,8 @@ public class Algorytm {
         		populacja = krzyzuj8Punktowo(populacja);
         		
         	}
-        	
         }
-        wskaznikEwaulacji = 0;
-
+        return populacja;
     }
     
     private Czlonek[] krzyzuj2Punktowo(Czlonek[] populacja) {
@@ -111,14 +110,14 @@ public class Algorytm {
     	return populacja;
     }
     private Czlonek[] krzyzuj8Punktowo(Czlonek[] populacja) {
-    	Krzyzowanie8Punkt krzyzowanie2Punkt = new Krzyzowanie8Punkt(liczbaGenow*13);
+    	Krzyzowanie8Punkt krzyzowanie8Punkt = new Krzyzowanie8Punkt(liczbaGenow*13);
     	for(int i = 0; i < populacja.length;i++) {
     		
     		if(Math.random() < krzyzowaniePrawdopodobienstwo) {
     			int partner = losujPartnera(wielkoscPopulacji,0);
     			char [] genyRodzicaX = populacja[i].dajLiniowo();
     			char [] genyRodzicaY = populacja[partner].dajLiniowo();
-    			populacja[i].chromosome = Czlonek.zamienNaGeny(krzyzowanie2Punkt.dajDziecko(genyRodzicaX, genyRodzicaY),liczbaGenow,13);
+    			populacja[i].chromosome = Czlonek.zamienNaGeny(krzyzowanie8Punkt.dajDziecko(genyRodzicaX, genyRodzicaY),liczbaGenow,13);
     		}
     	}
     	return populacja;
@@ -130,35 +129,24 @@ public class Algorytm {
     	for(int i = 0; i < wielkoscPopulacji; i++) {
     		
     		//wybor czy dany gen ma zostac zmutowany
-    		if(Math.random() < mutacjaPrawdopodobienstwo) {
+    		//if(Math.random() < mutacjaPrawdopodobienstwo) {
     			zmutowanyChromosom =  mutacja.czlonekMutacja(populacja[i].dajLiniowo());
     			populacja[i].chromosome = Czlonek.zamienNaGeny(zmutowanyChromosom, liczbaGenow, 13);
-    		}
+    		//}
     	}
     	return populacja;
     }
     
-    private static void zapiszNajlepszeGlobalneRozwiazania(String pomiar) {
-        Zapisywacz zapisywaczNajlepszychGlobalnie = new Zapisywacz("najlepszeGlobalnieWyspy" + ".txt");
-
-        zapisywaczNajlepszychGlobalnie.WriteToFile(pomiar);
-        zapisywaczNajlepszychGlobalnie.zamknij();
-    }
-
     private static void zapiszNajlepszeLokalneRozwiazania(String pomiar, int populacja) {
 
         Zapisywacz zapisywaczNajlepszychLokalnie = new Zapisywacz("najlepszeLokalneWyspy" + populacja + "." + ".txt");
         zapisywaczNajlepszychLokalnie.WriteToFile(pomiar);
-
-        zapisywaczNajlepszychLokalnie.zamknij();
     }
 
     private static void zapiszRozwiazania(String pomiar, int populacja) {
 
         Zapisywacz zapisywaczNajlepszychLokalnie = new Zapisywacz("wszystkieRozwiazania" + populacja + "." + ".txt");
         zapisywaczNajlepszychLokalnie.WriteToFile(pomiar);
-
-        zapisywaczNajlepszychLokalnie.zamknij();
     }
     private static int losujPartnera(int max, int min) {
 		return (int)((Math.random() * (max - min)) + min);
