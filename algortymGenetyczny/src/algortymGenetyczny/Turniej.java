@@ -1,58 +1,44 @@
 package algortymGenetyczny;
 
+import java.util.ArrayList;
 public class Turniej {
+	Czlonek [] zawodnicy;
 	
-	Populacja bazaPopulacja;
-	
-	public Turniej(Populacja bazaPopulacja) {
-		
-		this.bazaPopulacja=bazaPopulacja;
+	public Turniej(Czlonek[] zawodnicy) {
+		this.zawodnicy = zawodnicy;
 	}
-	private Populacja wylosowanie() {
+	
+	static ArrayList<Double> wylosowani = new ArrayList<Double>();
+	
+	public Czlonek[] calyTurniej() {
+		int wielkoscPopulacji = zawodnicy.length;
+		Czlonek [] zwyciezcy = new Czlonek[wielkoscPopulacji];
 		
-		int length = bazaPopulacja.n;
-		/*  wylosowanie dwóch osobników  */
-		int los1=(int) (Math.random()*(length - 0) + 0);
-		
-		//tablica osobników
-		
-		Czlonek tablicaOsob[]= new Czlonek[length];
-		 
-		for(int i=0;i<length;i++) {
-			los1=(int)(Math.random()*(length));
-			tablicaOsob[i]=bazaPopulacja.Populacja[los1];	
+		//zostawienie jednego pustego miejsca na wpisanie obecnie najlepszego aby nie zgubic tego rozwiazania
+		for(int i = 0; i < wielkoscPopulacji; i++) {
+			zwyciezcy[i] = przeprowadzMalyTurniej();
+			wylosowani.add(zwyciezcy[i].wartoscDlaFunkcji);
 		}
-			Populacja nowaPopulacja = bazaPopulacja.setPopulacja(tablicaOsob);
-
-				
-		return nowaPopulacja;
+		
+		wylosowani.clear();
+		return zwyciezcy;
 	}
 	
-	
-	private Czlonek wyborZwyciezcy(){
-		//wybór osobnika z ni¿sz¹ wartoœci¹ funkcji	
+	private Czlonek przeprowadzMalyTurniej() {
+		int wylosowany1 = getRandomNumber(0,zawodnicy.length);
+		int wylosowany2 = getRandomNumber(0,zawodnicy.length);
+			
+		Czlonek zawodnik1 = zawodnicy[wylosowany1];
+		Czlonek zawodnik2 = zawodnicy[wylosowany2];
 		
-		Populacja nowaPopulacja=wylosowanie();
-		
-		return nowaPopulacja.Adaptation.PopulacjaMinCzlonek();
-		
-	}
-	
-	public Populacja PopulacjaNajlepszaWygrana() {
-		
-		int length = bazaPopulacja.n;
-		Czlonek nowaTabCzlonkow[] = new Czlonek[length];
-		for(int i=0;i<length;i++) {
-			nowaTabCzlonkow[i]=wyborZwyciezcy();
+		if(zawodnik1.wartoscDlaFunkcji <= zawodnik2.wartoscDlaFunkcji) {
+			return zawodnik1;
 		}
-		return bazaPopulacja.setPopulacja(nowaTabCzlonkow);
+		return zawodnik2;
+		
 	}
 	
-	
-	
-	
-		
-		//dodanie osobnika do nowej populacji
-		
-
+	protected int getRandomNumber(int min, int max) {
+	    return (int)((Math.random() * (max - min)) + min);
+	}
 }

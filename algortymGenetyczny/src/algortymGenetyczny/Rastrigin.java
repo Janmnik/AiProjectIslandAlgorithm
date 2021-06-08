@@ -1,8 +1,8 @@
 package algortymGenetyczny;
 
-import java.util.function.Function;
 
-public class Rastrigin implements Function<Double[], Double> {
+
+public class Rastrigin {
     double amplitude;
     int numberOfVariables;
 
@@ -18,8 +18,7 @@ public class Rastrigin implements Function<Double[], Double> {
         return Math.pow(x,2) - (amplitude * Math.cos(2 * Math.PI * x));
     }
 
-    @Override
-    public Double apply(Double[] arr) {
+    public double apply(double[] arr) {
         double sum = 0.0;
         for (int i = 0; i < arr.length; i++) {
             sum += func(arr[i]);

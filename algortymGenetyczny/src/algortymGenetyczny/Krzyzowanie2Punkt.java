@@ -12,24 +12,24 @@ public class Krzyzowanie2Punkt {
 		
 	}
 	
-	protected Czlonek dajDziecko(Czlonek parentX, Czlonek parentY) {
+	protected char[] dajDziecko(char[] parentX, char[] parentY) {
 		char [] dzieckoChromosome = new char[chromosomeLength];
+		
 		//pierwsza czesc z rodzica X
 		for(int i = 0; i < punktKrzyz1;i++) {
-			dzieckoChromosome[i] = parentX.chromosome[i];
+			dzieckoChromosome[i] = parentX[i];
 		}
 		//srodek z rodzica Y
 		for(int i = punktKrzyz1; i < punktKrzyz2; i++) {
-			dzieckoChromosome[i] = parentY.chromosome[i];		
+			dzieckoChromosome[i] = parentY[i];		
 		}
 		//koniec z rodzica X
 		for(int i = punktKrzyz2; i < chromosomeLength; i++) {
-			dzieckoChromosome[i] = parentX.chromosome[i];		
+			dzieckoChromosome[i] = parentX[i];		
 		}
 		
-		Czlonek dziecko = new Czlonek(parentX.getStart(),parentX.getEnd(),parentX.n,parentX.precyzja);
-		dziecko.chromosome = dzieckoChromosome;
-		return dziecko;
+		
+		return dzieckoChromosome;
 	}
 	
 	//sprawdzam czy punkt 1 krzyzowania jest < niz punkt 2 krzyzowania ; jesli nie to zamieniam je 
