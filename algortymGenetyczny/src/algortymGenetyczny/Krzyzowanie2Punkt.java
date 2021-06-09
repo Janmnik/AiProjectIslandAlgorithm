@@ -5,16 +5,21 @@ public class Krzyzowanie2Punkt {
 	private int punktKrzyz1,punktKrzyz2; //punkt wydzielenia 2 czesci
 	
 	public Krzyzowanie2Punkt(int _chromosomeLength){
-		chromosomeLength = _chromosomeLength;
+		chromosomeLength = _chromosomeLength;	
+	}
+	
+	public void wylosujPunktyKrzyzowania() {
 		punktKrzyz1 = getRandomNumber(0,chromosomeLength);
 		punktKrzyz2 =  getRandomNumber(0,chromosomeLength);
 		sprawdzPunktyKrzyzowania();
-		
 	}
-	
 	protected char[] dajDziecko(char[] parentX, char[] parentY) {
 		char [] dzieckoChromosome = new char[chromosomeLength];
-		
+//		System.out.println("===== RODZIC1 ======");
+//		System.out.println(parentX);
+//		System.out.println("===== RODZIC2 ======");
+//		System.out.println(parentY);
+//		System.out.println(punktKrzyz1+" "+punktKrzyz2);
 		//pierwsza czesc z rodzica X
 		for(int i = 0; i < punktKrzyz1;i++) {
 			dzieckoChromosome[i] = parentX[i];

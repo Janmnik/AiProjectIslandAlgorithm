@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="najlepszaWyspa"/>
+		<item key="selection" value="System"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="System"/>
+			<item value="wyzeruj"/>
 			<item value="S"/>
 			<item value="najlepszaWyspa"/>
 			<item value="System.out"/>
@@ -21,8 +23,6 @@
 			<item value="static"/>
 			<item value="MAX"/>
 			<item value="GLOBALMAX"/>
-			<item value="child"/>
-			<item value="intersectPoint"/>
 		</list>
 		<list key="replacehistory">
 			<item value="krzyzowaniePrawdopodobienstwo"/>

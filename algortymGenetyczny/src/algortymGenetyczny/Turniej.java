@@ -1,21 +1,20 @@
 package algortymGenetyczny;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
+
+//sprawdzasz czy obecny najlepszy jest lepszy niz inny
+
 public class Turniej {
 	Czlonek [] zawodnicy;
 	
-	ArrayList<Integer> pula = new ArrayList<Integer>();
 	public Turniej(Czlonek[] zawodnicy) {
 		this.zawodnicy = zawodnicy;
 		
-		uzupelnijTurniej();
 	}
 	
-	private void uzupelnijTurniej() {
-		for(int i  = 0; i < zawodnicy.length;i++) {
-			pula.add(i);
-		}
-	}
+	
 	
 	public Czlonek[] calyTurniej() {
 		int wielkoscPopulacji = zawodnicy.length;
@@ -29,18 +28,33 @@ public class Turniej {
 	}
 	
 	private Czlonek przeprowadzMalyTurniej() {
-		int wylosowany1 = getRandomNumber(0,pula.size());
-		int wylosowany2 = getRandomNumber(0,pula.size());
-			
-		Czlonek zawodnik1 = zawodnicy[wylosowany1];
-		Czlonek zawodnik2 = zawodnicy[wylosowany2];
+		int najlepszyLos = getRandomNumber(0,zawodnicy.length);
+//		int wylosowany1 = getRandomNumber(0,pula.size());
+//		int wylosowany2 = getRandomNumber(0,pula.size());
+		ArrayList<Integer> wylosowani = new ArrayList<Integer>();
+		//wylosowani.add(najlepszyLos);
+		ArrayList<Czlonek> kokurenci = new ArrayList<Czlonek>();
 		
-		if(zawodnik1.wartoscDlaFunkcji <= zawodnik2.wartoscDlaFunkcji) {
-			pula.remove(wylosowany1);
-			return zawodnik1;
+		Czlonek najlepszy = zawodnicy[najlepszyLos];
+	
+		while(wylosowani.size() < 3){
+			int indeks = getRandomNumber(0,zawodnicy.length);
+			if(!wylosowani.contains(indeks) && indeks != najlepszyLos) {
+				wylosowani.add(indeks);
+				kokurenci.add(zawodnicy[indeks]); // ogarnij kopie; bo referencje
+			}
+		
 		}
-		pula.remove(wylosowany2);
-		return zawodnik2;
+		
+		
+		for(int i = 0; i < wylosowani.size();i++) {
+			if(najlepszy.wartoscDlaFunkcji > kokurenci.get(i).wartoscDlaFunkcji) {
+				najlepszy = kokurenci.get(i);
+			}
+		}
+		
+		
+		return najlepszy;
 		
 	}
 	

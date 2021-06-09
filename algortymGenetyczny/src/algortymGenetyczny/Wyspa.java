@@ -32,7 +32,6 @@ public class Wyspa implements Comparable<Wyspa>{
 	}
 	
 	
-	
 	public static void wyzeruj() {
 		Wyspa.index = 0;
 		Wyspa.numerWysp = 1;

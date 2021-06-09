@@ -10,7 +10,6 @@ public class Krzyzowanie8Punkt {
 	public Krzyzowanie8Punkt(int _dlugoscChromosomu) {
 		dlugoscChromosomu = _dlugoscChromosomu;
 		punktyKrzyzowania = losujPunkty(8);
-	
 	}
 	
 	private ArrayList<Integer> losujPunkty(int dlugosc) {

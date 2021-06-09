@@ -55,7 +55,11 @@ public class WyspowyAlgorytm {
         Collections.sort(wyspy, porownywaczPopulacji);
         return wyspy.get(0).podpopulacja;
     }
-
+    
+//    public static void main(String[] args) {
+//    	Wyspa wyspa = new Wyspa();
+//    	wyspa.run(20);
+//    }
 
  public static void main(String[] args) {
 
@@ -87,7 +91,7 @@ public class WyspowyAlgorytm {
         int env = 2000;
         int maxNiepowodzen = 3;
         
-        int maxEwaulacji = 500000;
+        int maxEwaulacji = 100000;
 
         //tworzenie wysp
         ArrayList < Wyspa > wyspy = new ArrayList < Wyspa > ();
@@ -106,7 +110,7 @@ public class WyspowyAlgorytm {
                     for (int i = 0; i < wyspy.size(); i++) {
                         System.out.println("========== WYSPA " + wyspy.get(i).numerWyspy + " populacja:" + wyspy.get(i).podpopulacja + "==============");
                         wyspy.get(i).run(env);
-                        System.out.println(wyspy.get(i).najlepszeRozwiazanie);
+                        //System.out.println(wyspy.get(i).najlepszeRozwiazanie);
                     }
                     
                     for(int i = 0; i < wyspy.size();i++) {

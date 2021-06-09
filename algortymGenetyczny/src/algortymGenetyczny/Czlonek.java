@@ -1,18 +1,19 @@
 package algortymGenetyczny;
 
-public class Czlonek implements Comparable<Czlonek> {
-
+public class Czlonek implements Comparable<Czlonek>{
 
     double Ai, Bi;
     double precyzja = 1000d;
     int MI;
     int n = 1;
+    		
     char[][] chromosome;
     double[] wartosciGenow;
     double wartoscDlaFunkcji = 9999.9;
     
     Rastrigin funkcja;
-
+    
+    public Czlonek() {}
     public Czlonek(double Ai, double Bi, int n, double precyzja) {
         this.Ai = Ai; // wartosc poczatku przedzialu wartosci
         this.Bi = Bi; // wartosc konica przedzialu wartosci
@@ -23,7 +24,16 @@ public class Czlonek implements Comparable<Czlonek> {
         wartosciGenow = new double[n];
         funkcja = new Rastrigin(10,n);
     }
-
+    
+    @Override
+    protected Object clone() throws CloneNotSupportedException{
+    	
+    	Czlonek czlonek = new Czlonek(Ai, Bi, n, precyzja);
+    	czlonek.chromosome = new char[n][MI];
+    	
+    	return super.clone();
+    }
+    
     @Override
     public int compareTo(Czlonek tenDrugi) {
     	if(this.wartoscDlaFunkcji < tenDrugi.wartoscDlaFunkcji) {
@@ -51,6 +61,7 @@ public class Czlonek implements Comparable<Czlonek> {
         double rezultat = Ai + Integer.parseInt(new String(gen), 2) * (Bi - Ai) / (Math.pow(2, MI) - 1);
         return Math.round(rezultat * precyzja) / precyzja;
     }
+    
     private char[] stworzGen() {
         char[] gen = new char[MI];
         for (int i = 0; i < MI; i++) {
@@ -58,6 +69,7 @@ public class Czlonek implements Comparable<Czlonek> {
         }
         return gen;
     }
+    
     private char[][] stworz() {
         char[][] _chromosome = new char[n][MI];
         double wartosc = 0.0;
@@ -89,7 +101,6 @@ public class Czlonek implements Comparable<Czlonek> {
         return Math.round(result * precyzja) / precyzja;
     }
 
-  
     public char[] dajLiniowo() {
         char[] linia = new char[MI * n];
         int wskaznik = 0;
@@ -132,6 +143,28 @@ public class Czlonek implements Comparable<Czlonek> {
     		wartosci[i] = decoding(chromosome[i]);
     	}
     	return wartosci;
+    }
+    
+    static Czlonek kopia(Czlonek czlonek) {
+    	Czlonek kopia = new Czlonek();
+    	kopia.chromosome = czlonek.chromosome;
+    	kopia.wartosciGenow = czlonek.wartosciGenow;
+    	kopia.wartoscDlaFunkcji = czlonek.wartoscDlaFunkcji;
+    	kopia.Ai = czlonek.Ai;
+    	kopia.Bi = czlonek.Bi;
+    	kopia.precyzja = czlonek.precyzja;
+    	kopia.n = czlonek.n;
+        kopia.MI = czlonek.MI;
+        kopia.funkcja = new Rastrigin(10,kopia.n);
+        return kopia;
+    }
+    
+    static Czlonek[] kopiaPopulacji(Czlonek [] populacja, int wielkosc) {
+    	Czlonek [] kopiaPopulacji = new Czlonek[wielkosc];
+    	for(int i  = 0; i < wielkosc; i++) {
+    		kopiaPopulacji[i] = kopia(populacja[i]);
+    	}
+    	return kopiaPopulacji;
     }
    
 }
