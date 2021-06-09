@@ -1,58 +1,64 @@
 package algortymGenetyczny;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
+
+//sprawdzasz czy obecny najlepszy jest lepszy niz inny
+
 public class Turniej {
+	Czlonek [] zawodnicy;
 	
-	Populacja bazaPopulacja;
-	
-	public Turniej(Populacja bazaPopulacja) {
+	public Turniej(Czlonek[] zawodnicy) {
+		this.zawodnicy = zawodnicy;
 		
-		this.bazaPopulacja=bazaPopulacja;
 	}
-	private Populacja wylosowanie() {
+	
+	
+	
+	public Czlonek[] calyTurniej() {
+		int wielkoscPopulacji = zawodnicy.length;
+		Czlonek [] zwyciezcy = new Czlonek[wielkoscPopulacji];
 		
-		int length = bazaPopulacja.n;
-		/*  wylosowanie dwóch osobników  */
-		int los1=(int) (Math.random()*(length - 0) + 0);
-		
-		//tablica osobników
-		
-		Czlonek tablicaOsob[]= new Czlonek[length];
-		 
-		for(int i=0;i<length;i++) {
-			los1=(int)(Math.random()*(length));
-			tablicaOsob[i]=bazaPopulacja.Populacja[los1];	
+		//zostawienie jednego pustego miejsca na wpisanie obecnie najlepszego aby nie zgubic tego rozwiazania
+		for(int i = 0; i < wielkoscPopulacji; i++) {
+			zwyciezcy[i] = przeprowadzMalyTurniej();
 		}
-			Populacja nowaPopulacja = bazaPopulacja.setPopulacja(tablicaOsob);
-
-				
-		return nowaPopulacja;
+		return zwyciezcy;
 	}
 	
+	private Czlonek przeprowadzMalyTurniej() {
+		int najlepszyLos = getRandomNumber(0,zawodnicy.length);
+//		int wylosowany1 = getRandomNumber(0,pula.size());
+//		int wylosowany2 = getRandomNumber(0,pula.size());
+		ArrayList<Integer> wylosowani = new ArrayList<Integer>();
+		//wylosowani.add(najlepszyLos);
+		ArrayList<Czlonek> kokurenci = new ArrayList<Czlonek>();
+		
+		Czlonek najlepszy = zawodnicy[najlepszyLos];
 	
-	private Czlonek wyborZwyciezcy(){
-		//wybór osobnika z ni¿sz¹ wartoœci¹ funkcji	
+		while(wylosowani.size() < 3){
+			int indeks = getRandomNumber(0,zawodnicy.length);
+			if(!wylosowani.contains(indeks) && indeks != najlepszyLos) {
+				wylosowani.add(indeks);
+				kokurenci.add(zawodnicy[indeks]); // ogarnij kopie; bo referencje
+			}
 		
-		Populacja nowaPopulacja=wylosowanie();
-		
-		return nowaPopulacja.Adaptation.PopulacjaMinCzlonek();
-		
-	}
-	
-	public Populacja PopulacjaNajlepszaWygrana() {
-		
-		int length = bazaPopulacja.n;
-		Czlonek nowaTabCzlonkow[] = new Czlonek[length];
-		for(int i=0;i<length;i++) {
-			nowaTabCzlonkow[i]=wyborZwyciezcy();
 		}
-		return bazaPopulacja.setPopulacja(nowaTabCzlonkow);
+		
+		
+		for(int i = 0; i < wylosowani.size();i++) {
+			if(najlepszy.wartoscDlaFunkcji > kokurenci.get(i).wartoscDlaFunkcji) {
+				najlepszy = kokurenci.get(i);
+			}
+		}
+		
+		
+		return najlepszy;
+		
 	}
 	
-	
-	
-	
-		
-		//dodanie osobnika do nowej populacji
-		
-
+	protected int getRandomNumber(int min, int max) {
+	    return (int)((Math.random() * (max - min)) + min);
+	}
 }

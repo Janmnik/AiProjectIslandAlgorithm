@@ -14,23 +14,24 @@ public class Mutacja {
 	}
 	
 	public Czlonek czlonekMutacja() {
+		char chromosome [] = czlonek.dajLiniowo();
 		for(int i = 0; i < czlonek.chromosome.length;i++) {
 			double _propability = Math.random();
 			if(_propability < propability) {
-				czlonek.chromosome[i] = czlonek.chromosome[i] == '0' ? '1' : '0';
+				chromosome[i] = chromosome[i] == '0' ? '1' : '0';
 			}
 		}
 		return czlonek;
 	}
 	
-	public Czlonek czlonekMutacja(Czlonek czlonek) {
-		for(int i = 0; i < czlonek.chromosome.length;i++) {
+	public char[] czlonekMutacja(char [] chromosome) {
+		for(int i = 0; i < chromosome.length;i++) {
 			double _propability = Math.random();
 			if(_propability < propability) {
-				czlonek.chromosome[i] = czlonek.chromosome[i] == '0' ? '1' : '0';
+				chromosome[i] = chromosome[i] == '0' ? '1' : '0';
 			}
-		}
-		return czlonek;
+		}	
+		return chromosome;
 	}
 	
 }

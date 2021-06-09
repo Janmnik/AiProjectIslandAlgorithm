@@ -10,7 +10,6 @@ public class Krzyzowanie8Punkt {
 	public Krzyzowanie8Punkt(int _dlugoscChromosomu) {
 		dlugoscChromosomu = _dlugoscChromosomu;
 		punktyKrzyzowania = losujPunkty(8);
-	
 	}
 	
 	private ArrayList<Integer> losujPunkty(int dlugosc) {
@@ -22,14 +21,14 @@ public class Krzyzowanie8Punkt {
 		        numbers.add(random);
 		      }
 		    }
-		
 		numbers.sort(null);    
 		return numbers;
 	}
 	
-	public Czlonek dajDziecko(Czlonek rodzicX, Czlonek rodzicY) {
+	public char[] dajDziecko(char [] rodzicX, char[] rodzicY) {
 		
 		char [] dzieckoChromosom = new char[dlugoscChromosomu];
+
 		int in = 0;
 	    int kolej = 0;
 	    //powtorz tyle razy ile jest punktow krzyzownia
@@ -40,11 +39,11 @@ public class Krzyzowanie8Punkt {
 	      do {
 	        //czesc rodzica 1
 	        if(kolej % 2 == 0){
-	        	dzieckoChromosom[in] = rodzicX.chromosome[in];
+	        	dzieckoChromosom[in] = rodzicX[in];
 	        }
 	        //czesc rodzica 2
 	        else{
-	        	dzieckoChromosom[in] = rodzicY.chromosome[in];
+	        	dzieckoChromosom[in] = rodzicY[in];
 	        }
 
 	        in++;
@@ -52,22 +51,20 @@ public class Krzyzowanie8Punkt {
 	      }while(in < punkt);
 	      kolej++;
 	    }
-	   
 	    //dla reszty: od punktu ostatniego do konca
-	    while(in < rodzicX.chromosome.length){
+	    while(in < rodzicX.length){
 	      //czesc rodzica 1
 	        if(kolej % 2 == 0){
-	        	dzieckoChromosom[in] = rodzicX.chromosome[in];
+	        	dzieckoChromosom[in] =rodzicX[in];
 	        }
 	        //czesc rodzica 2
 	        else{
-	        	dzieckoChromosom[in] = rodzicY.chromosome[in];
+	        	dzieckoChromosom[in] = rodzicY[in];
 	        }
 	        in++;
 	    }
-	    Czlonek dziecko = new Czlonek(rodzicX.getStart(),rodzicX.getEnd(),rodzicX.n,rodzicX.precyzja);
-		dziecko.chromosome = dzieckoChromosom;
-		return dziecko;
+	    
+		return dzieckoChromosom;
 	}
 	
 	
